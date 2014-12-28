@@ -24,6 +24,8 @@
 
 - name: execute post-merge script
   command: /etc/tinc/icvpn/scripts/post-merge
+  args:
+    chdir: /etc/tinc/icvpn
   notify:
     - reload tinc
 

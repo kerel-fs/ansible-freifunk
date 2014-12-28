@@ -1,0 +1,10 @@
+#!/bin/sh
+
+DATADIR=/var/lib/icvpn-meta
+
+cd /etc/tinc/icvpn
+git pull -q
+
+cd "$DATADIR"
+git pull -q
+

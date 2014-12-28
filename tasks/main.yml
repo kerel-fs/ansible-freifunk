@@ -1,19 +1,21 @@
 ---
+- name: Install packages
+  action: apt pkg={{item}}
+  with_items:
+  - tinc
+  - git-core
 
-- name: install tinc
-  apt: name=tinc state=present
-
-- name: clone icvpn git
-  git: repo=https://github.com/freifunk/icvpn.git dest=/etc/tinc/icvpn 
+- name: Clone icvpn git
+  git: repo=git://github.com/freifunk/icvpn.git dest=/etc/tinc/icvpn 
 
 - lineinfile: dest=/etc/tinc/nets.boot line=icvpn
 
-- name: copy default tinc conf
+- name: Copy default tinc conf
   template: src=tinc.conf.j2 dest=/etc/tinc/icvpn/tinc.conf mode='0644' owner=root group=root
   notify:
     - reload tinc
 
-- name: generate tinc key
+- name: Generate tinc keys
   command: /usr/sbin/tincd -n icvpn -K 4096
   args:
     creates: /etc/tinc/icvpn/rsa_key.priv

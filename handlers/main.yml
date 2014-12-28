@@ -1,0 +1,3 @@
+---
+- name: reload tinc
+  service: name=tinc state=reloaded

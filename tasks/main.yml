@@ -1,0 +1,30 @@
+---
+
+- name: install tinc
+  apt: name=tinc state=present
+
+- name: clone icvpn git
+  git: repo=https://github.com/freifunk/icvpn.git dest=/etc/tinc/icvpn 
+
+- lineinfile: dest=/etc/tinc/nets.boot line=icvpn
+
+- name: copy default tinc conf
+  template: src=tinc.conf.j2 dest=/etc/tinc/icvpn/tinc.conf mode='0644' owner=root group=root
+  notify:
+    - reload tinc
+
+- name: generate tinc key
+  command: /usr/sbin/tincd -n icvpn -K 4096
+  args:
+    creates: /etc/tinc/icvpn/rsa_key.priv
+  notify:
+    - reload tinc
+
+- name: execute post-merge script
+  command: /etc/tinc/icvpn/scripts/post-merge
+  notify:
+    - reload tinc
+
+- name: add 
+
+- service: name=tinc state=started

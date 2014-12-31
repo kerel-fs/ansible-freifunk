@@ -1,0 +1,30 @@
+{% set network_v4 = current_node.ipv4 | ipcalc %}
+{% set network_v6 = current_node.ipv6 | ipcalc %}
+
+auto bat0
+iface bat0 inet static
+  address {{ network_v4.host_min }}
+  netmask {{ network_v4.netmask }}
+  pre-up  modprobe batman-adv && tunctl -t {{ fastd_interface }} && batctl if add {{ fastd_interface }}
+  post-up ip rule add iif bat0 table ffkbu
+  pre-down ip rule del iif bat0 table ffkbu
+
+iface bat0 inet6 static
+  address {{ network_v6.host_min }}
+  netmask 64
+  # Routes
+  # Note: route del not needed - shutting down the interfaces removes routes anyway
+  post-up ip -6 route add {{ ff_network.ipv6 }} dev bat0
+  post-up ip -6 route add {{ ff_network.ipv6 }} dev bat0 table ffkbu
+
+  # Rules (iif: routed traffic, from: traffic from the supernode)
+  post-up ip -6 rule add iif bat0 table ffkbu
+  post-up ip -6 rule add from {{ ff_network.ipv6 }} table ffkbu
+  pre-down ip -6 rule del iif bat0 table ffkbu
+  pre-down ip -6 rule del from {{ ff_network.ipv6 }} table ffkbu
+
+# For anycast DNS
+auto bat0:0
+iface bat0:0 inet static
+  address 172.27.0.2
+  netmask 255.255.192.0

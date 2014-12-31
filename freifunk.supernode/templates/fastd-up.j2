@@ -1,0 +1,13 @@
+{% set network_ipv4 = node.ipv4 | ipcalc %}
+#!/bin/sh
+
+/sbin/ip link set dev {{ fastd_interface }} address {{ "02:ff:0f:a5:7d:%02d" | format(ff_supernodes[inventory_hostname].id|int) }}
+/sbin/ip link set dev {{ fastd_interface }} up
+
+/usr/sbin/batctl if add {{ fastd_interface }}
+/usr/sbin/batctl it 5000
+/usr/sbin/batctl gw_mode server 100MBit/100MBit
+
+/sbin/ip rule add from 172.27.0.0/18 table ffkbu
+/sbin/ip route add 172.27.0.0/18 dev bat0 table ffkbu
+/sbin/ip route flush cache

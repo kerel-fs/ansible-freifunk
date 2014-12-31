@@ -1,0 +1,20 @@
+interface bat0 {
+  AdvSendAdvert on;
+  AdvHomeAgentFlag off;
+  MinRtrAdvInterval 10;
+  MaxRtrAdvInterval 30;
+  AdvOtherConfigFlag on;
+  AdvSourceLLAddress off;
+  AdvLinkMTU 1350; #1442 - fastd - batman-adv - See wiki for details
+
+  prefix {{ current_node.ipv6 }} {
+    AdvOnLink on;
+    AdvAutonomous on;
+    AdvRouterAddr on;
+  };
+  prefix fdd3:5d16:b5dd::/64 {
+    AdvOnLink off;
+    AdvAutonomous off;
+    AdvRouterAddr on;
+  };
+};

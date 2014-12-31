@@ -1,0 +1,24 @@
+---
+- name: Install packages
+  apt: name={{item}}
+  with_items:
+  - fastd
+  - git-core
+
+- name: Create peers directory
+  file: dest=/etc/fastd/mesh-vpn/peers state=directory
+
+- name: Upload fastd-up hook
+  template: src=fastd-up.j2 dest=/etc/fastd/mesh-vpn/fastd-up owner=root group=root mode=0755
+
+- name: Upload fastd webservice hooks
+  template: src={{item}}.j2 dest=/etc/fastd/mesh-vpn/{{item}} owner=root group=root mode=0755
+  with_items:
+  - on-establish
+  - on-disestablish
+  when: supernode_web_service_url
+
+- name: Clone fastd pubkeys
+  git: repo={{fastd_pubkeys_repo}} dest=/etc/fastd/mesh-vpn/backbone
+
+- service: name=fastd state=started

@@ -1,0 +1,11 @@
+---
+- name: Install unbound
+  apt: name=unbound
+
+- template: src=unbound.conf.j2 dest='/etc/unbound/unbound.conf'
+  notify: 
+  - restart unbound
+- service: name=unbound state=started
+
+- name: lo post-up
+  lineinfile: dest='/etc/network/interfaces' regexp='^   post\-up' insertafter='^iface lo inet loopback' line='   post-up ip -6 addr add fdd3:5d16:b5dd::2/128 dev lo'

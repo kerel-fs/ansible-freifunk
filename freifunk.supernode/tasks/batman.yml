@@ -1,0 +1,26 @@
+---
+- name: Install packages
+  apt: name={{item}}
+  with_items:
+  - batman-adv-dkms
+  - uml-utilities
+  - ifupdown
+
+- name: Enable batman during boot
+  lineinfile: dest=/etc/modules line=batman-adv
+- modprobe: name=batman-adv
+
+# works on jessie
+- lineinfile: dest=/etc/network/interfaces line='source-directory /etc/network/interfaces.d'
+  when: ansible_distribution_release == "jessie"
+
+# works on wheezy (or earlier?)
+- lineinfile: dest=/etc/network/interfaces line='source /etc/network/interfaces.d/bat0'
+  when: ansible_distribution_release == "wheezy"
+
+- file: dest=/etc/network/interfaces.d state=directory
+- template: src=bat0.j2 dest='/etc/network/interfaces.d/bat0' owner=root group=root mode='0644'
+
+- command: /sbin/ifup bat0
+  register: ifup_result
+  changed_when: "'already configured' in ifup_result.stdout"

@@ -1,0 +1,19 @@
+---
+- name: Install tinc
+  apt: name=tinc
+
+- file: path=/etc/tinc/backbone state=directory owner=root group=root
+- name: Enable backbone
+  lineinfile: dest=/etc/tinc/nets.boot line=backbone
+
+- command: /usr/sbin/tincd -n backbone -K 4096
+  args:
+    creates: /etc/tinc/backbone/rsa_key.priv
+
+- template: src=tinc.conf.j2 dest='/etc/tinc/backbone/tinc.conf' owner=root group=root mode='0644'
+- template: src=tinc-up.j2   dest='/etc/tinc/backbone/tinc-up'   owner=root group=root mode='0744'
+
+# FIXME
+#- template: src=tinc_subnet.j2 dest='/etc/tinc/backbone/subnet'
+
+- git: repo="https://github.com/ff-kbu/bbkeys.git" dest='/etc/tinc/backbone/hosts'

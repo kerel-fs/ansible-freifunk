@@ -1,0 +1,13 @@
+---
+
+- name: restart isc-dhcp-server
+  service: name='isc-dhcp-server' state=restarted
+
+- name: restart radvd
+  service: name=radvd state=restarted
+
+- name: restart unbound
+  service: name=unbound state=restarted
+
+- name: restart nrpe
+  service: name='nagios-nrpe-server' state=restarted

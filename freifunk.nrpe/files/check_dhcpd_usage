@@ -1,0 +1,134 @@
+#!/usr/bin/env python
+import argparse
+import datetime
+import netaddr
+import nagiosplugin
+
+
+def get_leases(filename):
+	with open(filename) as f:
+		leases_plain = f.read()
+
+	leases_lines = iter(leases_plain.splitlines())
+
+	todos = {
+		'starts': lambda l: {'starts': datetime.datetime.strptime(l[2]+' '+l[3], "%Y/%m/%d %H:%M:%S")},
+		'ends': lambda l: {'ends': datetime.datetime.strptime(l[2]+' '+l[3], "%Y/%m/%d %H:%M:%S")},
+		'tstp': lambda l: {'tstp': datetime.datetime.strptime(l[2]+' '+l[3], "%Y/%m/%d %H:%M:%S")},
+		'cltt': lambda l: {'cltt': datetime.datetime.strptime(l[2]+' '+l[3], "%Y/%m/%d %H:%M:%S")},
+		'binding': lambda l: {'binding_state': l[2]},
+		'hardware': lambda l: {'ethernet': l[2]},
+		'uid': lambda l: {'uid': l[1]},
+		'client-hostname': lambda l: {'hostname': l[1]},
+		'next': lambda l: {'next_state': l[3]},
+		'rewind': lambda l: {'rewind_state': l[3]},
+	}
+
+	leases = dict()
+	#leases = list()
+	for line in leases_lines:
+		if line.startswith('#') or len(line) == 0:
+			continue
+		if line.startswith('server-duid'):
+			continue
+
+		line = line.strip(' {;')
+		if not line.startswith('lease'):
+			continue
+		lease = dict()
+		ip = netaddr.IPAddress(line.split()[1])
+		while True:
+			l = next(leases_lines).strip(' {;')
+			if l.startswith('}'):
+				break
+			l = l.split()
+			lease.update(todos[l[0]](l))
+
+		if ip in leases:
+			try:
+				if leases[ip]['starts'] < lease['starts']:
+					leases[ip] = lease
+			except KeyError as e:
+				leases['ip'] = lease
+		else:
+			leases[ip] = lease
+
+	return leases
+
+
+def get_dhcpd_ip_ranges(filename):
+	with open(filename) as f:
+		config_plain = f.read()
+
+	dhcp_ips = netaddr.IPSet()
+	config_lines = iter(config_plain.splitlines())
+	for line in config_lines:
+		line = line.strip(' {;')
+		if line.startswith('pool'):
+			raise NotImplementedError('pool definition parsing is not yet implemented')
+		if line.startswith('range'):
+			r = line.split()
+			dhcp_ips.add(netaddr.IPRange(r[1], r[2]))
+
+	return dhcp_ips
+
+
+class Dhcpd_usage(nagiosplugin.Resource):
+	def __init__(self, leases_file, config_file):
+		self.leases_file = leases_file
+		self.config_file = config_file
+
+	def probe(self):
+		now = datetime.datetime.now(tz=None) - datetime.timedelta(hours=1)
+
+		leases = get_leases(self.leases_file)
+		ranges = get_dhcpd_ip_ranges(self.config_file)
+		available = len(ranges)  # total number of available IPs as per dhcpd range definition
+		valid = 0  # leases with starttime < now < endtime
+		active_leases = 0  # leases with binding state active<
+		for ip, lease in leases.items():
+			if ip not in ranges:
+				continue
+			if lease['starts'] < now < lease['ends']:
+				valid += 1
+			if lease['binding_state'] == 'active':
+				active_leases += 1
+
+		return [
+			nagiosplugin.Metric('available', available-valid, min=0),
+			nagiosplugin.Metric('active', active_leases),
+			nagiosplugin.Metric('valid', valid),
+			nagiosplugin.Metric('total', available),
+		]
+
+@nagiosplugin.guarded
+def main():
+	argp = argparse.ArgumentParser()
+	argp.add_argument('leases')
+	argp.add_argument('config')
+	argp.add_argument('-w', '--warning', metavar='RANGE', default='', help='return warning if available leases are outside RANGE')
+	argp.add_argument('-c', '--critical', metavar='RANGE', default='', help='return critical if available leases are outside RANGE')
+
+	args = argp.parse_args()
+
+	check = nagiosplugin.Check(
+		Dhcpd_usage(args.leases, args.config),
+		nagiosplugin.ScalarContext('available', args.warning, args.critical, fmt_metric='{value} leases available'),
+		nagiosplugin.ScalarContext('active', fmt_metric='{value} leases active'),
+		nagiosplugin.ScalarContext('valid', fmt_metric='{values} valid leases'),
+		nagiosplugin.ScalarContext('total', fmt_metric='{value} leases total')
+	)
+
+	check.main()
+
+
+def main2():
+	argp = argparse.ArgumentParser()
+	argp.add_argument('leases')
+	argp.add_argument('config')
+	args = argp.parse_args()
+	print(len(get_leases(args.leases)))
+
+if __name__ == '__main__':
+	main()
+	#main2()

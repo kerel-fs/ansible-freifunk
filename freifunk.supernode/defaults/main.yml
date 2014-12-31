@@ -1,0 +1,64 @@
+---
+ff_domain: "mesh.kbu.freifunk.net"
+ff_lease_time: 86400
+ff_dns:
+- 172.27.0.2
+- 213.73.91.35
+
+ff_network:
+  ipv4: 172.27.0.0/18
+  ipv6: 2001:67c:20a0:b100::/60
+
+fastd_interface: 'mesh-vpn'
+
+backbone_network:
+  ipv4: 172.27.255.0/24
+  ipv6: 2001:67c:20a0::/64
+
+ff_supernodes:
+  fastd1:
+    id: 1
+    ipv4: 172.27.0.0/21
+    ipv6: 2001:67c:20a0:b101::/64
+  fastd2:
+    id: 2
+    ipv4: 172.27.56.0/21
+    ipv6: 2001:67c:20a0:b102::/64
+  fastd3:
+    id: 3
+    ipv4: 172.27.8.0/21
+    ipv6: 2001:67c:20a0:b103::/64
+  fastd4:
+    id: 4
+    ipv4: 172.27.16.0/21
+    ipv6: 2001:67c:20a0:b104::/64
+  fastd5:
+    id: 5
+    ipv4: 172.27.24.0/21
+    ipv6: 2001:67c:20a0:b105::/64
+  fastd6:
+    id: 6
+    ipv4: 172.27.32.0/21
+    ipv6: 2001:67c:20a0:b106::/64
+  fastd7:
+    id: 7
+    ipv4: 172.27.48.0/21
+    ipv6: 2001:67c:20a0:b107::/64
+
+# Forwarded DNS zones
+ff_forwarders:
+  ".":
+  - 172.27.255.2 # www.kbu
+  hack:
+  - 172.31.0.5
+  - 172.31.116.1
+  dn42:
+  - 172.22.228.85
+  - 172.22.222.6
+
+# Q: include as submodule into ansible?
+fastd_pubkeys_repo: https://github.com/ff-kbu/fastd-pubkeys.git
+
+# set to an http(s):// resource
+supernode_web_service_url: false
+supernode_web_service_auth: "user:password"

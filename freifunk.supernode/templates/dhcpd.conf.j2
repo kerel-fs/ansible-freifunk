@@ -1,0 +1,16 @@
+{% set network = = ff_supernodes[inventory_hostname].ipv4 | ipcalc %}
+
+option domain-name "{{ ff_domain }}";
+option domain-name-servers {{ ff_dns | join(', ') }};
+
+default-lease-time {{ ff_lease_time }};
+max-lease-time {{ ff_lease_time }};
+authoritative;
+log-facility local7;
+
+subnet {{ network.network }} netmask {{ network.netmask }} {
+  # if using a /24 then the range goes from .10 to .254
+  range {{ network.host_min | ipadd(9) }} {{ network.host_max }};
+  option routers {{ network.host_min }};
+  option interface-mtu 1350;
+}

@@ -1,0 +1,12 @@
+---
+- fail: msg="Please configure {{inventory_hostname}} in ff_supernodes"
+  when: ff_supernodes[inventory_hostname]|default(false) == false
+
+- include: apt.yml
+- include: sysconfig.yml
+- include: tinc.yml
+- include: batman.yml
+- include: fastd.yml
+- include: dhcpd4.yml
+- include: radvd.yml
+- include: unbound.yml

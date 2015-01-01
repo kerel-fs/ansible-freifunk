@@ -13,7 +13,7 @@
     "net.core.wmem_default": 83886080
 
 - name: Assign name to routing table
-  lineinfile: dest="/etc/iproute2/rt_tables" regexp="^200" line="200 ffkbu"
+  lineinfile: dest="/etc/iproute2/rt_tables" regexp="^200" line="200 freifunk"
 
 - name: Install rsyslog
   apt: name=rsyslog

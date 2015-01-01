@@ -7,7 +7,7 @@
 
 # IPv4
 ## Default-Route for Mesh-clients
-/sbin/ip route add default dev $INTERFACE table ffkbu
+/sbin/ip route add default dev $INTERFACE table freifunk
 
 # IPv6
 ## VPN-Addresses (local)
@@ -15,6 +15,6 @@
 ## Public-IP as announced in backbone
 /sbin/ip -6 addr add {{ network_ipv6.host_min }} dev $INTERFACE
 ## Default-Route for mesh clients
-/sbin/ip -6 route add default dev $INTERFACE table ffkbu
+/sbin/ip -6 route add default dev $INTERFACE table freifunk
 
 /etc/init.d/nagios-nrpe-server restart

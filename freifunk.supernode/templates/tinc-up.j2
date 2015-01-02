@@ -11,7 +11,7 @@
 
 # IPv6
 ## VPN-Addresses (local)
-/sbin/ip -6 addr add {{ "fdd3:5d16:b5dd:3::" | ipadd(node.id + 20) }}/64 dev $INTERFACE
+/sbin/ip -6 addr add {{ ff_backbone_network.ipv6 | ipadd(node.id + 24) }}/64 dev $INTERFACE
 ## Public-IP as announced in backbone
 /sbin/ip -6 addr add {{ network_ipv6.host_min }} dev $INTERFACE
 ## Default-Route for mesh clients

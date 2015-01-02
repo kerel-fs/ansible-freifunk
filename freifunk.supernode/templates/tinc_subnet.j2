@@ -1,4 +1,5 @@
-Subnet=172.27.255.{{ supernode_backbone_suffix[hostname] }}/32
-Subnet=172.27.{{ supernode_ipv4_subnet[hostname][0] }}.0/21
-Subnet=fdd3:5d16:b5dd:3::{{ supernode_backbone_suffix[hostname] }}/128
-Subnet=2001:67c:20a0:{{ supernode_ipv6_subnet[hostname] }}::/64
+{% set node = ff_supernode[inventory_hostname] %}
+Subnet={{ ff_backbone_network.ipv4 | ipadd(node.id + 20) }}/32
+Subnet={{ node.ipv4 }}
+Subnet={{ ff_backbone_network.ipv6 | ipadd(node.id + 24) }}/128
+Subnet={{ node.ipv6 }}

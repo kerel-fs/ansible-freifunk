@@ -1,7 +1,8 @@
-{% set network_ipv4 = node.ipv4 | ipcalc %}
+{% set current_node = ff_supernodes[inventory_hostname] %}
+{% set network_ipv4 = current_node.ipv4 | ipcalc %}
 #!/bin/sh
 
-/sbin/ip link set dev {{ fastd_interface }} address {{ "02:ff:0f:a5:7d:%02d" | format(ff_supernodes[inventory_hostname].id|int) }}
+/sbin/ip link set dev {{ fastd_interface }} address {{ "02:ff:0f:a5:7d:%02d" | format(current_node.id|int) }}
 /sbin/ip link set dev {{ fastd_interface }} up
 
 /usr/sbin/batctl if add {{ fastd_interface }}

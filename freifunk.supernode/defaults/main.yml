@@ -5,15 +5,25 @@ ff_dns:
 - 172.27.0.2
 - 213.73.91.35
 
+ff_anycast_dns:
+  interface:
+    - fdd3:5d16:b5dd::2
+    - 172.27.0.2
+  access_control:
+    - 2001:67c:20a0:b100::/56
+    - fdd3:5d16:b5dd::/48
+    - 172.27.0.0/16
+
 ff_network:
   ipv4: 172.27.0.0/18
   ipv6: 2001:67c:20a0:b100::/60
+  ipv6_ula: fdd3:5d16:b5dd::/64
 
 fastd_interface: 'mesh-vpn'
 
-backbone_network:
+ff_backbone_network:
   ipv4: 172.27.255.0/24
-  ipv6: 2001:67c:20a0::/64
+  ipv6: fdd3:5d16:b5dd:3::/64
 
 ff_supernodes:
   fastd1:

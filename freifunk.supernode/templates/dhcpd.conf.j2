@@ -1,4 +1,4 @@
-{% set network = = ff_supernodes[inventory_hostname].ipv4 | ipcalc %}
+{% set network = ff_supernodes[inventory_hostname].ipv4 | ipcalc %}
 
 option domain-name "{{ ff_domain }}";
 option domain-name-servers {{ ff_dns | join(', ') }};

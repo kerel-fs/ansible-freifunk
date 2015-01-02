@@ -1,3 +1,4 @@
+{% set current_node = ff_supernodes[inventory_hostname] %}
 interface bat0 {
   AdvSendAdvert on;
   AdvHomeAgentFlag off;
@@ -12,7 +13,7 @@ interface bat0 {
     AdvAutonomous on;
     AdvRouterAddr on;
   };
-  prefix fdd3:5d16:b5dd::/64 {
+  prefix {{ ff_network.ipv6_ula }} {
     AdvOnLink off;
     AdvAutonomous off;
     AdvRouterAddr on;

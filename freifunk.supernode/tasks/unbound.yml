@@ -8,4 +8,4 @@
 - service: name=unbound state=started
 
 - name: lo post-up
-  lineinfile: dest='/etc/network/interfaces' regexp='^   post\-up' insertafter='^iface lo inet loopback' line='   post-up ip -6 addr add fdd3:5d16:b5dd::2/128 dev lo'
+  lineinfile: dest='/etc/network/interfaces' regexp='^   post\-up' insertafter='^iface lo inet loopback' line='   post-up ip -6 addr add {{ ff_network.ipv6_ula | ipadd(2) }}/128 dev lo'

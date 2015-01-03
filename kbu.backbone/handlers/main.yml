@@ -1,0 +1,4 @@
+---
+# handlers file for kbu.backbone
+- name: restart tinc
+  service: name=tinc state=restarted

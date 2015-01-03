@@ -1,0 +1,7 @@
+---
+# defaults file for kbu.backbone
+ff_backbone_network:
+  ipv4: 172.27.255.0/24
+  ipv6: fdd3:5d16:b5dd:3::/64
+
+

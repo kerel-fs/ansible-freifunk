@@ -1,4 +1,7 @@
 ---
+- fail: msg="Please configure {{inventory_hostname}} in ff_supernodes"
+  when: ff_supernodes[inventory_hostname]|default(false) == false
+
 - name: Install tinc
   apt: name=tinc
 
@@ -11,9 +14,19 @@
     creates: /etc/tinc/backbone/rsa_key.priv
 
 - template: src=tinc.conf.j2 dest='/etc/tinc/backbone/tinc.conf' owner=root group=root mode='0644'
+  notify:
+  - restart tinc
 - template: src=tinc-up.j2   dest='/etc/tinc/backbone/tinc-up'   owner=root group=root mode='0744'
+  notify:
+  - restart tinc
 
 # FIXME
 #- template: src=tinc_subnet.j2 dest='/etc/tinc/backbone/subnet'
+#  notify:
+#  - restart tinc
 
 - git: repo="https://github.com/ff-kbu/bbkeys.git" dest='/etc/tinc/backbone/hosts'
+  notify:
+  - restart tinc
+
+- service: name=tinc state=started

@@ -21,10 +21,6 @@ ff_network:
 
 fastd_interface: 'mesh-vpn'
 
-ff_backbone_network:
-  ipv4: 172.27.255.0/24
-  ipv6: fdd3:5d16:b5dd:3::/64
-
 ff_supernodes:
   fastd1:
     id: 1

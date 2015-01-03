@@ -13,17 +13,24 @@
   args:
     creates: /etc/tinc/backbone/rsa_key.priv
 
-- template: src=tinc.conf.j2 dest='/etc/tinc/backbone/tinc.conf' owner=root group=root mode='0644'
+- name: tinc.conf
+  template: src=tinc.conf.j2 dest='/etc/tinc/backbone/tinc.conf' owner=root group=root mode='0644'
   notify:
   - restart tinc
-- template: src=tinc-up.j2   dest='/etc/tinc/backbone/tinc-up'   owner=root group=root mode='0744'
+- name: tinc-up
+  template: src=tinc-up.j2   dest='/etc/tinc/backbone/tinc-up'   owner=root group=root mode='0744'
   notify:
   - restart tinc
 
-# FIXME
-#- template: src=tinc_subnet.j2 dest='/etc/tinc/backbone/subnet'
-#  notify:
-#  - restart tinc
+- name: create tinc subnet defs
+  template: src=tinc_subnet.j2 dest='/etc/tinc/backbone/subnet'
+  notify:
+  - restart tinc
+
+- name: concat subnet defs and pubkey
+  command: "/bin/cat /etc/tinc/backbone/subnet /etc/tinc/backbone/rsa_key.pub > /etc/tinc/backbone/{{ inventory_hostname }}" 
+  args:
+    creates="/etc/tinc/backbone/{{ inventory_hostname }}"
 
 - git: repo="https://github.com/ff-kbu/bbkeys.git" dest='/etc/tinc/backbone/hosts'
   notify:

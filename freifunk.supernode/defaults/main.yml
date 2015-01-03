@@ -1,4 +1,7 @@
 ---
+
+ff_batadv_compat: 14
+
 ff_domain: "mesh.kbu.freifunk.net"
 ff_lease_time: 86400
 ff_dns:
@@ -19,6 +22,8 @@ ff_network:
   ipv6: 2001:67c:20a0:b100::/60
   ipv6_ula: fdd3:5d16:b5dd::/64
 
+# this should be overwritten by group_variables
+# this duplicates the fastd_interface variable as set by the fastd role
 fastd_interface: 'mesh-vpn'
 
 ff_supernodes:

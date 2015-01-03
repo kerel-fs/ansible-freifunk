@@ -1,9 +1,12 @@
 ---
-- name: Add repository for fastd and batman-adv
+- name: Add repository for batman-adv compat 14
   apt_key: keyserver='pgp.surfnet.nl' id=6664E7BDA6B669881EC52E7516EF3F64CB201D9C
+  when: ff_batadv_compat == 14
 - apt_repository: repo='deb http://repo.universe-factory.net/debian/ sid main'
+  when: ff_batadv_compat == 14
 - apt_repository: repo='deb-src http://repo.universe-factory.net/debian/ sid main' update_cache=yes
+  when: ff_batadv_compat == 14
 
-- name: Add wheezy backports for libjson-c2
+- name: Add wheezy backports for batman compat 15
   apt_repository: repo='deb http://http.debian.net/debian wheezy-backports main'
-  when: ansible_distribution_release == "wheezy"
+  when: ansible_distribution_release == "wheezy" and ff_batadv_compat==15

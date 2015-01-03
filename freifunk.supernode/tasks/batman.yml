@@ -2,9 +2,15 @@
 - name: Install packages
   apt: name={{item}}
   with_items:
-  - batman-adv-dkms
   - uml-utilities
   - ifupdown
+
+- name: install batman-adv compat 14
+  when: ff_batadv_compat == 14
+  apt: name=batman-adv-dkms state=present
+
+- include: batman_15.yml
+  when: ansible_distribution_release == "wheezy" and ff_batadv_compat==15
 
 - name: Enable batman during boot
   lineinfile: dest=/etc/modules line=batman-adv

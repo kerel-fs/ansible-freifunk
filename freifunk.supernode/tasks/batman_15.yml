@@ -1,0 +1,9 @@
+---
+
+- name: install batman-adv compat 15 via backports kernel
+  apt: name=linux-image-amd64 state=latest default_release=wheezy-backports update_cache=yes
+  when: ansible_distribution_release == "wheezy"
+
+- name: install batctl
+  apt: name=batctl state=present install_recommends=false
+

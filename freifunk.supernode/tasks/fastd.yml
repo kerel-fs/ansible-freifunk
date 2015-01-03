@@ -1,10 +1,4 @@
 ---
-- name: Install packages
-  apt: name={{item}}
-  with_items:
-  - fastd
-  - git-core
-
 - name: Create peers directory
   file: dest=/etc/fastd/mesh-vpn/peers state=directory
 

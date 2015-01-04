@@ -26,6 +26,9 @@ ff_network:
 # this duplicates the fastd_interface variable as set by the fastd role
 fastd_interface: 'mesh-vpn'
 
+# Repository with public keys
+fastd_pubkeys_repo: https://github.com/ff-kbu/fastd-pubkeys.git
+
 ff_supernodes:
   fastd1:
     id: 1
@@ -66,9 +69,6 @@ ff_forwarders:
   dn42:
   - 172.22.228.85
   - 172.22.222.6
-
-# Q: include as submodule into ansible?
-fastd_pubkeys_repo: https://github.com/ff-kbu/fastd-pubkeys.git
 
 # set to an http(s):// resource
 supernode_web_service_url: false

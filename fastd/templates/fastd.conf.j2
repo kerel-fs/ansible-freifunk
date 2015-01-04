@@ -55,7 +55,7 @@ on connect {{ fastd_on_connect.mode | default('async') }} "{{ fastd_on_connect.c
 {% if fastd_on_establish is defined and fastd_on_establish.command is defined %}
 on establish {{ fastd_on_establish.mode | default('async') }} "{{ fastd_on_establish.command }}";
 {% endif %}
-{% if fastd_on_disestalish is defined and fastd_on_disestablish.command is defined %}
+{% if fastd_on_disestablish is defined and fastd_on_disestablish.command is defined %}
 on disestablish {{ fastd_on_disestablish.mode | default('async') }} "{{ fastd_on_disestablish.command }}";
 {% endif %}
 {% if fastd_on_verify is defined and fastd_on_verify.command is defined %}

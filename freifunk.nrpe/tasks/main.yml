@@ -1,23 +1,28 @@
 ---
 
-- apt: name={{ item }} state=present
+- name: install nagios-nrpe-server, python3-pip
+  apt: name={{ item }} state=present
   with_items:
     - nagios-nrpe-server
     - python3-pip
 
-- pip: executable=/usr/bin/pip-3.2 name={{ item }} state=present
+- name: install nagiosplugin, netaddr from pip3
+  pip: executable=/usr/bin/pip-3.2 name={{ item }} state=present
   with_items:
     - nagiosplugin
     - netaddr
 
-- template: src=nrpe.cfg.j2 dest=/etc/nagios/nrpe.cfg owner=root group=root mode='0644'
+- name: nrpe.cfg
+  template: src=nrpe.cfg.j2 dest=/etc/nagios/nrpe.cfg owner=root group=root mode='0644'
   notify:
     - restart nrpe
 
-- copy: src=nrpe_local.cfg dest=/etc/nagios/nrpe_local.cfg owner=root group=root mode='0644'
+- name: nrpe_local.cfg
+  copy: src=nrpe_local.cfg dest=/etc/nagios/nrpe_local.cfg owner=root group=root mode='0644'
   notify:
     - restart nrpe
 
-- copy: src=check_dhcpd_usage dest=/usr/local/bin/check_dhcpd_usage owner=root group=root mode='0755'
+- name: check_dhcpd_usage
+  copy: src=check_dhcpd_usage dest=/usr/local/bin/check_dhcpd_usage owner=root group=root mode='0755'
 
 - service: name='nagios-nrpe-server' state=started

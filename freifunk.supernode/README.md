@@ -8,7 +8,7 @@ Requirements
 ------------
 
 Add this filter plugin to your ansible installation:
-https://gist.github.com/corny/39464aa37e70692d0b2a
+https://github.com/digineo/ansible-ipcalc
 
 Role Variables
 --------------

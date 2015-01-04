@@ -1,5 +1,4 @@
 {% set current_node = ff_supernodes[inventory_hostname] %}
-{% set network_ipv4 = current_node.ipv4 | ipcalc %}
 #!/bin/sh
 
 /sbin/ip link set dev {{ fastd_interface }} address {{ "02:ff:0f:a5:7d:%02d" | format(current_node.id|int) }}
@@ -9,6 +8,6 @@
 /usr/sbin/batctl it 5000
 /usr/sbin/batctl gw_mode server 100MBit/100MBit
 
-/sbin/ip rule add from 172.27.0.0/18 table freifunk
-/sbin/ip route add 172.27.0.0/18 dev bat0 table freifunk
+/sbin/ip rule add from {{ ff_network.ipv4 }} table freifunk
+/sbin/ip route add {{ ff_network.ipv4 }} dev bat0 table freifunk
 /sbin/ip route flush cache

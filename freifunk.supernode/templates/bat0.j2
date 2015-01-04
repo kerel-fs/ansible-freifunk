@@ -6,7 +6,7 @@
 auto bat0
 iface bat0 inet static
   address {{ network_v4.host_min }}
-  netmask {{ network_v4.netmask }}
+  netmask {{ ff_network_v4.netmask }}
   pre-up  modprobe batman-adv && tunctl -t {{ fastd_interface }} && batctl if add {{ fastd_interface }}
   post-up ip rule add iif bat0 table freifunk
   pre-down ip rule del iif bat0 table freifunk

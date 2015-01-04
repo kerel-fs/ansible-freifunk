@@ -28,9 +28,9 @@
   - restart tinc
 
 - name: concat subnet defs and pubkey
-  command: "/bin/cat /etc/tinc/backbone/subnet /etc/tinc/backbone/rsa_key.pub > /etc/tinc/backbone/{{ inventory_hostname }}" 
+  shell: "/bin/cat /etc/tinc/backbone/subnet /etc/tinc/backbone/rsa_key.pub > /etc/tinc/backbone/{{ inventory_hostname }}" 
   args:
-    creates="/etc/tinc/backbone/{{ inventory_hostname }}"
+    creates: "/etc/tinc/backbone/{{ inventory_hostname }}"
 
 - git: repo="https://github.com/ff-kbu/bbkeys.git" dest='/etc/tinc/backbone/hosts'
   notify:

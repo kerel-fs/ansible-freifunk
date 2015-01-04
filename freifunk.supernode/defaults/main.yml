@@ -2,7 +2,7 @@
 
 ff_batadv_compat: 14
 
-ff_domain: "mesh.kbu.freifunk.net"
+ff_domain: "kbu.freifunk.net"
 ff_lease_time: 86400
 ff_dns:
 - 172.27.0.2

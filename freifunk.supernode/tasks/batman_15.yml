@@ -1,4 +1,7 @@
 ---
+- name: Add wheezy backports for batman compat 15
+  apt_repository: repo='deb http://http.debian.net/debian wheezy-backports main'
+  when: ansible_distribution_release == "wheezy"
 
 - name: install batman-adv compat 15 via backports kernel
   apt: name=linux-image-amd64 state=latest default_release=wheezy-backports update_cache=yes
@@ -6,4 +9,3 @@
 
 - name: install batctl
   apt: name=batctl state=present install_recommends=false
-

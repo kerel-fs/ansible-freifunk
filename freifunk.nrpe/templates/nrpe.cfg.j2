@@ -1,7 +1,8 @@
+{% set node = ff_supernodes[inventory_hostname] %}
 log_facility=daemon
 pid_file=/var/run/nagios/nrpe.pid
 server_port=5666
-server_address=172.27.255.{{ supernode_backbone_suffix[hostname] }}
+server_address={{ ff_backbone_network.ipv4 | ipadd(node.id + 20) }}
 nrpe_user=nagios
 nrpe_group=nagios
 allowed_hosts=127.0.0.1,172.27.255.13

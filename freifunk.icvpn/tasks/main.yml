@@ -3,7 +3,7 @@
   action: apt pkg={{item}}
   with_items:
   - tinc
-  - git-core
+  - git
 
 - name: Clone icvpn git
   git: repo=https://github.com/freifunk/icvpn.git dest=/etc/tinc/icvpn 

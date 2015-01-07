@@ -16,7 +16,7 @@
   with_items:
   - on-establish
   - on-disestablish
-  when: supernode_web_service_url
+  when: supernode_web_service_url != ""
 
 - name: Remove deprecated hook
   file: path=/etc/fastd/mesh-vpn/fastd-up state=absent

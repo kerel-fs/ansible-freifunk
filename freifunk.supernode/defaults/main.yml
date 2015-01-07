@@ -71,5 +71,5 @@ ff_forwarders:
   - 172.22.222.6
 
 # set to an http(s):// resource
-supernode_web_service_url: false
+supernode_web_service_url: ""
 supernode_web_service_auth: "user:password"

@@ -6,8 +6,11 @@
     - nagios-nrpe-server
     - python3-pip
 
+- name: make sure debinan supplied netaddr is not installed
+  apt: name=python3-netaddr state=absent
+
 - name: install nagiosplugin, netaddr from pip3
-  pip: executable=/usr/bin/pip-3.2 name={{ item }} state=present
+  pip: executable=/usr/bin/pip-3.2 name={{ item }} state=latest
   with_items:
     - nagiosplugin
     - netaddr

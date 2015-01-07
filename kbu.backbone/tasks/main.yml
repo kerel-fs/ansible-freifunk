@@ -36,4 +36,4 @@
   notify:
   - restart tinc
 
-- service: name=tinc state=started
+- service: name=tinc state=started pattern="/usr/sbin/tincd -n backbone"

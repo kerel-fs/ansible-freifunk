@@ -3,6 +3,9 @@
   apt_repository: repo='deb http://http.debian.net/debian wheezy-backports main'
   when: ansible_distribution_release == "wheezy"
 
+- name: remove batman-adv compat 14
+  apt: name=batman-adv-dkms state=absent
+
 - name: install batman-adv compat 15 via backports kernel
   apt: name=linux-image-amd64 state=latest default_release=wheezy-backports update_cache=yes
   when: ansible_distribution_release == "wheezy"

@@ -27,6 +27,7 @@ def get_leases(filename):
 	leases = dict()
 	#leases = list()
 	for line in leases_lines:
+		line = line.strip()
 		if line.startswith('#') or len(line) == 0:
 			continue
 		if line.startswith('server-duid'):
@@ -42,7 +43,10 @@ def get_leases(filename):
 			if l.startswith('}'):
 				break
 			l = l.split()
-			lease.update(todos[l[0]](l))
+			try:
+				lease.update(todos[l[0]](l))
+			except KeyError:
+				pass
 
 		if ip in leases:
 			try:

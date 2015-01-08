@@ -2,5 +2,6 @@ Name={{ inventory_hostname }}
 Device=/dev/net/tun
 Mode=router
 Compression=9
-ConnectTo=paul
-ConnectTo=paula
+{% for server in kbu_backbone_connect_to %}
+ConnectTo={{ server }}
+{% endfor %}

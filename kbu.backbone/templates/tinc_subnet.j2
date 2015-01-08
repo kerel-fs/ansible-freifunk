@@ -1,5 +1,5 @@
 {% set node = ff_supernodes[inventory_hostname] %}
-Subnet={{ ff_backbone_network.ipv4 | ipadd(node.id + 20) }}/32
+Subnet={{ kbu_backbone_network.ipv4 | ipadd(node.id + 20) }}/32
 Subnet={{ node.ipv4 }}
-Subnet={{ ff_backbone_network.ipv6 | ipadd(node.id + 32) }}/128
+Subnet={{ kbu_backbone_network.ipv6 | ipadd(node.id + 32) }}/128
 Subnet={{ node.ipv6 }}

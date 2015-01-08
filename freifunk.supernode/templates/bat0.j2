@@ -1,4 +1,4 @@
-{% set current_node = ff_supernodes[inventory_hostname] %}
+{% set current_node = ff_servers[inventory_hostname] %}
 {% set network_v4 = current_node.ipv4 | ipcalc %}
 {% set network_v6 = current_node.ipv6 | ipcalc %}
 {% set ff_network_v4 = ff_network.ipv4 | ipcalc %}

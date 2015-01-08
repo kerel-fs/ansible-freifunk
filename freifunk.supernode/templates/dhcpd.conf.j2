@@ -1,4 +1,4 @@
-{% set network = ff_supernodes[inventory_hostname].ipv4 | ipcalc %}
+{% set network = ff_servers[inventory_hostname].ipv4 | ipcalc %}
 {% set ff_network_v4 = ff_network.ipv4 | ipcalc %}
 
 option domain-name "mesh.{{ ff_domain }}";

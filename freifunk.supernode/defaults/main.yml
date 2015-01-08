@@ -29,35 +29,15 @@ fastd_interface: 'mesh-vpn'
 # Repository with public keys
 fastd_pubkeys_repo: https://github.com/ff-kbu/fastd-pubkeys.git
 
-ff_supernodes:
-  fastd1:
-    id: 1
-    ipv4: 172.27.0.0/21
+ff_servers:
+  node1:
+    ipv4: 172.27.0.0/24
     ipv6: 2001:67c:20a0:b101::/64
-  fastd2:
-    id: 2
-    ipv4: 172.27.56.0/21
+    iface_mac: "02:ff:0f:a5:7d:01"
+  node2:
+    ipv4: 172.27.1.0/24
     ipv6: 2001:67c:20a0:b102::/64
-  fastd3:
-    id: 3
-    ipv4: 172.27.8.0/21
-    ipv6: 2001:67c:20a0:b103::/64
-  fastd4:
-    id: 4
-    ipv4: 172.27.16.0/21
-    ipv6: 2001:67c:20a0:b104::/64
-  fastd5:
-    id: 5
-    ipv4: 172.27.24.0/21
-    ipv6: 2001:67c:20a0:b105::/64
-  fastd6:
-    id: 6
-    ipv4: 172.27.32.0/21
-    ipv6: 2001:67c:20a0:b106::/64
-  fastd7:
-    id: 7
-    ipv4: 172.27.48.0/21
-    ipv6: 2001:67c:20a0:b107::/64
+    iface_mac: "02:ff:0f:a5:7d:01"
 
 # Forwarded DNS zones
 ff_forwarders:

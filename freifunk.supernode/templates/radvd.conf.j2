@@ -1,4 +1,3 @@
-{% set current_node = ff_supernodes[inventory_hostname] %}
 interface bat0 {
   AdvSendAdvert on;
   AdvHomeAgentFlag off;
@@ -8,7 +7,7 @@ interface bat0 {
   AdvSourceLLAddress off;
   AdvLinkMTU 1350; #1442 - fastd - batman-adv - See wiki for details
 
-  prefix {{ current_node.ipv6 }} {
+  prefix {{ ff_servers[inventory_hostname].ipv6 }} {
     AdvOnLink on;
     AdvAutonomous on;
     AdvRouterAddr on;

@@ -1,6 +1,6 @@
 ---
-- fail: msg="Please configure {{inventory_hostname}} in ff_supernodes"
-  when: ff_supernodes[inventory_hostname]|default(false) == false
+- fail: msg="Please configure {{inventory_hostname}} in ff_servers"
+  when: ff_servers[inventory_hostname]|default(false) == false
 
 - hostname: name={{ inventory_hostname }}
 - lineinfile: dest=/etc/hosts regexp="^127.0.1.1" line="127.0.1.1       {{ inventory_hostname }}.{{ ff_domain }} {{ inventory_hostname }}"

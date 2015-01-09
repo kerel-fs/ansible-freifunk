@@ -1,6 +1,4 @@
-table ebgp;
-table ibgp;
-table freifunk;
+table icvpn;
 
 ### functions ###
 
@@ -18,95 +16,37 @@ function is_freifunk() {
 
 ### kernel ###
 
-# synchronize from bird to main kernel routing table
+# synchronize all except self prefix
+# from bird icvpn table to kernel routing table nr. X
 # nothing in the other direction
-protocol kernel k_mast {
+protocol kernel kernel_icvpn {
     scan time 10;
+
+    table icvpn;
+    kernel table {{ icvpn_kernel_table }};
     import none;
     export filter {
-        krt_prefsrc = {{ icvpn_ipv4_addr | ipadd(0) }};
+        if is_self_net() then reject;
+        krt_prefsrc = {{ icvpn_ipv4_addr }};
         accept;
     };
 };
 
-# this pseudo-protocol watches all interface up/down events
-protocol device {
-    scan time 10;
-};
-
-### pipes ###
-
-# sync nothing from main routing table to ebgp
-# sync routes (not own network) from ebgp to main routing table
-protocol pipe p_maintbl {
-    peer table ebgp;
-    import where !is_self_net();
-    export none;
-};
-
-# sync routes (not own network) from ebgp to ibgp
-# sync routes (all) from ibgp to ebgp
-protocol pipe p_ibgptbl {
-  table ebgp;
-  peer table ibgp;
-  import all;
-  export where !is_self_net();
-};
-
-# sync routes (freifunk, dn42 and chaosvpn) from ibgp to freifunk
-# sync nothing from freifunk to ibgp
-protocol pipe p_freitbl {
-  table ibgp;
-  peer table freifunk;
-  import none;
-  export where is_freifunk();
-};
-
 ### static routes ###
 
-# if no openvpn is running, reject everything we do not have a route for
-protocol static unreachable_default {
-  route 0.0.0.0/0 reject;
-  table freifunk;
-};
-
-protocol static static_ff3l {  
-  route 10.119.0.0/16 reject;
-  table ebgp;
-};
-
-# in hamburg we use a /18 from our /16 in the mesh
-# create a route for that in freifunk table
-protocol static local_ff3l {
-  route 10.119.0.0/16 via <mesh-interface>;
-  table freifunk;
+protocol static static_route {
+  route {{ icvpn_ipv4_net }} reject;
+  table icvpn;
 };
 
 ### templates ###
 
-# template for same city freifunk gateways
-template bgp locals {
-  table ibgp;
-  local as ownas;
-  import filter {
-    preference = 99;
-    accept;
-  };
-  export where source = RTS_BGP;
-  direct;
-  next hop self;
-};
-
 # template for icvpn gateways of other cities
 template bgp peers {
-  table ebgp;
-  local as ownas;
+  table icvpn;
+  local as {{ icvpn_ownas }};
   # ignore routes for our own network
   import where (is_freifunk() && !is_self_net());
   export where is_freifunk();
   route limit 10000;
 };
-
-### additional configuration  ###
-
-include "/etc/bird/bird.d/*";

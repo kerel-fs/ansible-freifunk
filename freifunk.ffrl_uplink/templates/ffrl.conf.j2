@@ -36,11 +36,11 @@ template bgp uplink {
   multihop 64;
 }
 
-{% for peer in ffrl_bgp_peers %}
+{% for peer in ffrl_peers %}
 protocol bgp {{ peer.name }} from uplink {
-  source address {{ peer.source }};
-  neighbor {{ peer.neighbor }} as {{ peer.as }};
-  password {{ peer.password }};
-  default bgp_local_pref {{ peer.local_pref }};
+  source address {{ peer.own_transport_ipv4 }};
+  neighbor {{ peer.peer_transport_ipv4 }} as {{ peer.as }};
+  password {{ peer.bgp_password }};
+  default bgp_local_pref {{ peer.bgp_local_pref }};
 }
 {% endfor %}

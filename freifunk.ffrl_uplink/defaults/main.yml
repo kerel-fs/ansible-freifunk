@@ -5,18 +5,25 @@ ffrl_kernel_table = 203
 ffrl_ipv4_net = 185.66.194.32/29
 ffrl_ownas = 65528
 
-ffrl_bgp_peers:
-  ffrl_fra3_a:
+ffrl_peers:
+    ffrl_fra3a:
       name = "ffrl_fra3_a"
-      source   = 100.64.0.61
-      neighbor = 100.64.0.60
+      local_ipv4  = 176.9.41.253
+      remote_ipv4 = 185.66.194.0
+      own_transport_ipv4  = 100.64.0.61
+      peer_transport_ipv4 = 100.64.0.60
+      own_transport_ipv6 = 2a03:2260:0:24::2
       as = 201701
-      password = "***"
-      local_pref = 200
-  ffrl_fra3_b:
+      bgp_password = "***"
+      bgp_local_pref = 200
+
+    ffrl_fra3b:
       name = "ffrl_fra3_b"
-      source   = 100.64.0.63
-      neighbor = 100.64.0.62
+      local_ipv4  = 176.9.41.253
+      remote_ipv4 = 185.66.194.1
+      own_transport_ipv4  = 100.64.0.63
+      peer_transport_ipv4 = 100.64.0.62
+      own_transport_ipv6 = 2a03:2260:0:25::2
       as = 201701
-      password = "***"
-      local_pref = 200
+      bgp_password = "***"
+      bgp_local_pref = 200

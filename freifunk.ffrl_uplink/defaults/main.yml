@@ -1,0 +1,22 @@
+---
+# default variables for ffrl_uplink
+
+ffrl_kernel_table = 203
+ffrl_ipv4_net = 185.66.194.32/29
+ffrl_ownas = 65528
+
+ffrl_bgp_peers:
+  ffrl_fra3_a:
+      name = "ffrl_fra3_a"
+      source   = 100.64.0.61
+      neighbor = 100.64.0.60
+      as = 201701
+      password = "***"
+      local_pref = 200
+  ffrl_fra3_b:
+      name = "ffrl_fra3_b"
+      source   = 100.64.0.63
+      neighbor = 100.64.0.62
+      as = 201701
+      password = "***"
+      local_pref = 200

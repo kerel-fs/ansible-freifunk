@@ -6,7 +6,7 @@
 - lineinfile: dest=/etc/hosts regexp="^127.0.1.1" line="127.0.1.1       {{ inventory_hostname }}.{{ ff_domain }} {{ inventory_hostname }}"
 - include: sysconfig.yml
 - include: batman.yml
-- include: fastd.yml
+- { include: fastd.yml, tags: fastd }
 - include: dhcpd4.yml
 - include: radvd.yml
 - include: unbound.yml

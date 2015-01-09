@@ -17,3 +17,4 @@ dependencies:
     command: ./on-establish
   fastd_on_disestablish:
     command: ./on-disestablish
+  tags: fastd

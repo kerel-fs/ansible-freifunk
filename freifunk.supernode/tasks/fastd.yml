@@ -1,9 +1,6 @@
 ---
-- name: Install packages
-  apt: name={{item}}
-  with_items:
-  - fastd
-  - git
+- name: Install git
+  apt: name=git state=present
 
 - name: Create peers directory
   file: dest=/etc/fastd/mesh-vpn/peers state=directory

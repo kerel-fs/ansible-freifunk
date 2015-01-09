@@ -16,5 +16,6 @@
   lineinfile: dest="/etc/iproute2/rt_tables" regexp="^200" line="200 freifunk"
 
 - name: Install rsyslog
-  apt: name=rsyslog
+  apt: name=rsyslog state=present
+
 - lineinfile: dest=/etc/rsyslog.conf regexp="^local7\." line="local7.* /var/log/dhcpd.log"

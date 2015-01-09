@@ -3,8 +3,7 @@ auto {{ peer.name }}
 iface {{ peer.name }} inet static
   address {{ peer.own_ipv4 }}
   netmask 255.255.255.254
-  pre-up ip tunnel add $IFACE mode gre local {{ peer.local_ipv4 }} remote {{
-peer.remote_ipv4 }} ttl 255
+  pre-up ip tunnel add $IFACE mode gre local {{ peer.local_ipv4 }} remote {{ peer.remote_ipv4 }} ttl 255
   post-up ip link set $IFACE mtu 1400
   post-down ip tunnel del $IFACE
 

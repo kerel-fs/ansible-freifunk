@@ -67,6 +67,6 @@ pmtu {{ fastd_pmtu | default('auto') }};
 secret "{{ fastd_secret }}";
 secure handshakes {{ fastd_secure_handshakes | default('yes') }};
 
-{% if fastd_status_socket_path is defined %}
-status socket "{{ fastd_status_socket_path }}";
+{% if fastd_status_socket is defined %}
+status socket "{{ fastd_status_socket }}";
 {% endif %}

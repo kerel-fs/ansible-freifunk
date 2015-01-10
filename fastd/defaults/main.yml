@@ -44,5 +44,5 @@ fastd_peers:
     peers_limit: 100  
 fastd_secret: "[TOP SECRET]"
 fastd_secure_handshakes: 'yes'
-fastd_status_socket_path: '/var/log/fastd_status'
+fastd_status_socket: '/var/log/fastd_status'
 

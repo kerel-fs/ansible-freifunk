@@ -3,20 +3,20 @@
   apt: name=git state=present
 
 - name: Create peers directory
-  file: dest=/etc/fastd/mesh-vpn/peers state=directory
+  file: dest="/etc/fastd/{{ fastd_interface }}/peers" state=directory
 
 - name: Upload on-up hook
-  template: src=on-up.j2 dest=/etc/fastd/mesh-vpn/on-up owner=root group=root mode=0755
+  template: src=on-up.j2 dest="/etc/fastd/{{ fastd_interface }}/on-up" owner=root group=root mode=0755
 
 - name: Upload fastd webservice hooks
-  template: src={{item}}.j2 dest=/etc/fastd/mesh-vpn/{{item}} owner=root group=root mode=0755
+  template: src={{item}}.j2 dest="/etc/fastd/{{ fastd_interface }}/{{item}}" owner=root group=root mode=0755
   with_items:
   - on-establish
   - on-disestablish
   when: supernode_web_service_url != ""
 
 - name: Remove deprecated hook
-  file: path=/etc/fastd/mesh-vpn/fastd-up state=absent
+  file: path="/etc/fastd/{{ fastd_interface }}/fastd-up" state=absent
 
 - name: Clone fastd pubkeys
-  git: repo={{fastd_pubkeys_repo}} dest=/etc/fastd/mesh-vpn/backbone
+  git: repo={{fastd_pubkeys_repo}} dest="/etc/fastd/{{ fastd_interface }}/backbone"

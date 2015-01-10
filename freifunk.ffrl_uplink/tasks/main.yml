@@ -1,0 +1,45 @@
+---
+- name: install ifupdown
+  apt: name=ifupdown
+
+# works on wheezy (or earlier?)
+- name: enable interfaces.d for debian wheezy
+  lineinfile: dest=/etc/network/interfaces line='source /etc/network/interfaces.d/bat0'
+  when: ansible_distribution_release == "wheezy"
+
+# works on jessie
+- name: enable interfaces.d for debian jessie
+  lineinfile: dest=/etc/network/interfaces line='source-directory /etc/network/interfaces.d'
+  when: ansible_distribution_release == "jessie"
+
+- file: dest=/etc/network/interfaces.d state=directory
+
+- name: add GRE tunnel configuration
+  template: src=ffrl-gre-tunnels.j2 dest='/etc/network/interfaces.d/ffrl-tunnels' owner=root group=root mode='0644'
+
+- name: enable tunnels
+  command: /sbin/ifup {{ item.name }}
+  with_dict: ffrl_peers
+  register: ifup_result
+  changed_when: "'already configured' in ifup_result.stdout"
+
+- name: add wheezy backports for bird
+  apt_repository: repo='deb http://http.debian.net/debian wheezy-backports main'
+  when: ansible_distribution_release == "wheezy"
+
+- name: install bird via debian-backports
+  apt: name=bird state=latest default_release=wheezy-backports update_cache=yes
+  when: ansible_distribution_release == "wheezy"
+
+- name: install bird for debian jessie
+  apt: name=bird state=present update_cache=yes
+  when: ansible_distribution_release == "jessie"
+
+- file: dest=/etc/bird/bird.d state=directory
+
+- template: src=bird.conf.j2 dest='/etc/bird/bird.conf' owner=root group=root mode='0644'
+- template: src=ffrl.conf.j2 dest='/etc/bird/bird.d/ffrl.conf' owner=root group=root mode='0644'
+  notify:
+  - reload bird config
+
+- service: name=bird state=started

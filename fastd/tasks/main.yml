@@ -17,3 +17,9 @@
   template: src=fastd.conf.j2 dest="/etc/fastd/{{ fastd_interface }}/fastd.conf" owner=root group=root mode='0600'
   notify: 
   - restart fastd
+
+- name: peers_dirs
+  file: path="/etc/fastd/{{ fastd_interface }}/{{ item.value.peers_dir }}" state=directory
+  with_dict: fastd_peers
+  notify:
+  - restart fastd

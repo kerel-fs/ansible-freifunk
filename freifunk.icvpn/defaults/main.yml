@@ -1,6 +1,7 @@
 ---
 # default variables for icvpn
 
+router_id = 10.207.0.57
 icvpn_hostname = 'koeln1'
 icvpn_kernel_table = 202
 icvpn_ipv4_addr = 10.207.0.57

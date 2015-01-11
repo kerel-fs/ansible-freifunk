@@ -1,7 +1,7 @@
 table ffrl;
 
 function is_default() {
-  return net ~ [0.0.0.0/0];
+  return net ~ [ ::0/0 ];
 }
 
 # synchronize default route
@@ -23,7 +23,7 @@ protocol direct {
 
 protocol static uplink_hostroute {
   table ffrl;
-  route {{ ffrl_ipv4_net }} reject;
+  route {{ ffrl_ipv6_net }} reject;
 }
 
 template bgp uplink {
@@ -38,8 +38,8 @@ template bgp uplink {
 
 {% for peer in ffrl_peers %}
 protocol bgp {{ peer.name }} from uplink {
-  source address {{ peer.own_transport_ipv4 }};
-  neighbor {{ peer.peer_transport_ipv4 }} as {{ ffrl_as }};
+  source address {{ peer.own_transport_ipv6 }};
+  neighbor {{ peer.peer_transport_ipv6 }} as {{ ffrl_as }};
   password {{ peer.bgp_password }};
   default bgp_local_pref {{ peer.bgp_local_pref }};
 }

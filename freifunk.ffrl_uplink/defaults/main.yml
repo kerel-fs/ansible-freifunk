@@ -1,20 +1,25 @@
 ---
 # default variables for ffrl_uplink
 
-router_id = 10.207.0.57
 ffrl_kernel_table = 203
 ffrl_ipv4_net = 185.66.194.32/29
+ffrl_ipv6_net = 2a03:2260:1004::/48
+
 ffrl_ownas = 65528
 ffrl_as    = 201701
+router_id = 10.207.0.57
 
 ffrl_peers:
     ffrl_fra3a:
       name = "ffrl_fra3_a"
+      #gre tunnel config
       local_ipv4  = 176.9.41.253
       remote_ipv4 = 185.66.194.0
+      #bgp peer config
       own_transport_ipv4  = 100.64.0.61
       peer_transport_ipv4 = 100.64.0.60
-      own_transport_ipv6 = 2a03:2260:0:24::2
+      own_transport_ipv6  = 2a03:2260:0:24::2
+      peer_transport_ipv6 = 2a03:2260:0:24::1
       bgp_password = "***"
       bgp_local_pref = 200
 
@@ -25,5 +30,6 @@ ffrl_peers:
       own_transport_ipv4  = 100.64.0.63
       peer_transport_ipv4 = 100.64.0.62
       own_transport_ipv6 = 2a03:2260:0:25::2
+      peer_transport_ipv6 = 2a03:2260:0:25::1
       bgp_password = "***"
       bgp_local_pref = 200

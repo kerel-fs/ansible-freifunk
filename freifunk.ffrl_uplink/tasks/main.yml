@@ -23,6 +23,9 @@
   register: ifup_result
   changed_when: "'already configured' in ifup_result.stdout"
 
+- name: add kernel table ffrl
+  linefile: dest=/etc/iproute2/rt_tables line='{{ ffrl_kernel_table }}	ffrl'
+
 - name: add wheezy backports for bird
   apt_repository: repo='deb http://http.debian.net/debian wheezy-backports main'
   when: ansible_distribution_release == "wheezy"

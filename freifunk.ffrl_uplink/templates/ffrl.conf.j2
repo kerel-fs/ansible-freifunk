@@ -17,7 +17,7 @@ protocol kernel kernel_ffrl {
 };
 
 protocol direct {
-  interface "ffrl-*";
+  interface {{ ffrl_peers|map(attribute='name')|join(', ') }};
   table ffrl;
 }
 

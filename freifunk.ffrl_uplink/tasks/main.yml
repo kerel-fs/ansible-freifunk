@@ -44,7 +44,9 @@
 - template: src=ffrl.conf.j2 dest='/etc/bird/bird.d/ffrl.conf' owner=root group=root mode='0644'
   notify:
   - reload bird config
-  #can't validate incomplete configuration, otherwise validate='bird -c %s -p' would be nice
+
+- name: test bird config
+  command: bird -c /etc/bird/bird.conf -p
 
 - service: name=bird state=started
 
@@ -54,5 +56,8 @@
 - template: src=ffrl6.conf.j2 dest='/etc/bird/bird6.d/ffrl6.conf' owner=root group=root mode='0644'
   notify:
   - reload bird6 config
+
+- name: test bird6 config
+  command: bird6 -c /etc/bird/bird6.conf -p
 
 - service: name=bird6 state=started

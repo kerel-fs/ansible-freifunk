@@ -6,10 +6,10 @@
   file: dest="/etc/fastd/{{ fastd_interface }}/peers" state=directory
 
 - name: Upload on-up hook
-  template: src=on-up.j2 dest="/etc/fastd/{{ fastd_interface }}/on-up" owner=root group=root mode=0755
+  template: src=on-up.j2 dest="/etc/fastd/{{ fastd_interface }}/on-up" owner=root group=root mode='0755'
 
 - name: Upload fastd webservice hooks
-  template: src={{item}}.j2 dest="/etc/fastd/{{ fastd_interface }}/{{item}}" owner=root group=root mode=0755
+  template: src={{item}}.j2 dest="/etc/fastd/{{ fastd_interface }}/{{item}}" owner=root group=root mode='0755'
   with_items:
   - on-establish
   - on-disestablish

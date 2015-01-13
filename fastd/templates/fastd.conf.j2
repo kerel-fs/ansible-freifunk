@@ -1,10 +1,6 @@
-{% if fastd_bind is defined %}
 {% for b in fastd_bind %}
 bind {{ b }};
 {% endfor %}
-{% else %}
-bind 0.0.0.0:10000;
-{% endif %}
 
 drop capabilities {{ fastd_drop_capabilities | default('yes') }};
 forward {{ fastd_forward | default('no') }};

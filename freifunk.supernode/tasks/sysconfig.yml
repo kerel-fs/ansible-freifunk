@@ -18,4 +18,13 @@
 - name: Install rsyslog
   apt: name=rsyslog state=present
 
-- lineinfile: dest=/etc/rsyslog.conf regexp="^local7\." line="local7.* /var/log/dhcpd.log"
+- name: rsyslog file for fastd
+  copy: src=etc/rsyslog.d/fastd.conf dest=/etc/rsyslog.d/fastd.conf owner=root group=root mode='0644'
+  notify:
+  - restart rsyslog
+
+- name: rsyslog file for dhcpd
+  copy: src=etc/rsyslog.d/dhcpd.conf dest=/etc/rsyslog.d/dhcpd.conf owner=root group=root mode='0644'
+  notify:
+  - restart rsyslog
+

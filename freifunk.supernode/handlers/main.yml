@@ -7,3 +7,7 @@
 
 - name: restart unbound
   service: name=unbound state=restarted
+
+- name: restart rsyslog
+  service: name=rsyslog state=restarted
+

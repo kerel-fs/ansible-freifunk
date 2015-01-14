@@ -18,13 +18,19 @@
 - name: Install rsyslog
   apt: name=rsyslog state=present
 
-- name: rsyslog file for fastd
-  copy: src=etc/rsyslog.d/fastd.conf dest=/etc/rsyslog.d/fastd.conf owner=root group=root mode='0644'
+- name: copy rsyslog files
+  copy: src='etc/rsyslog.d/{{ item }}' dest='/etc/rsyslog.d/{{ item }}' owner=root group=root mode='0644'
+  with_items:
+  - fastd.conf
+  - dhcpd.conf
   notify:
   - restart rsyslog
 
-- name: rsyslog file for dhcpd
-  copy: src=etc/rsyslog.d/dhcpd.conf dest=/etc/rsyslog.d/dhcpd.conf owner=root group=root mode='0644'
-  notify:
-  - restart rsyslog
+- name: copy logrotate files
+  copy: src='etc/logrotate.d/{{ item }}' dest='/etc/logrotate.d/{{ item }}' owner=root group=root mode='0644'
+  with_items:
+  - fastd
+  - dhcpd
 
+- name: copy logrotate hourly script
+  copy: src='etc/cron.hourly/logrotate' dest='/etc/cron.hourly/logrotate' owner=root group=root mode='0744'

@@ -7,7 +7,6 @@ option domain-name-servers {{ ff_dns | join(', ') }};
 default-lease-time {{ ff_lease_time }};
 max-lease-time {{ ff_lease_time }};
 authoritative;
-log-facility local7;
 
 subnet {{ ff_network_v4.network }} netmask {{ ff_network_v4.netmask }} {
   # if using a /24 then the range goes from .10 to .254

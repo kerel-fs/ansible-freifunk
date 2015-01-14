@@ -7,8 +7,5 @@
   notify:
   - restart isc-dhcp-server
 
-- name: Install logrotate configuration
-  copy: src=dhcpd_logrotate dest=/etc/logrotate.d/dhcpd owner=root group=root mode='0644'
-
 - name: Start DHCP server
   service: name=isc-dhcp-server state=started

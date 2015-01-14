@@ -17,7 +17,7 @@ protocol kernel kernel_ffrl {
 };
 
 protocol direct {
-  interface {{ ffrl_peers|map(attribute='name')|join(', ') }};
+  interface "{{ ffrl_peers|map(attribute='name')|join('", "') }}";
   table ffrl;
 }
 
@@ -40,7 +40,7 @@ template bgp uplink {
 protocol bgp {{ peer.name }} from uplink {
   source address {{ peer.own_transport_ipv4 }};
   neighbor {{ peer.peer_transport_ipv4 }} as {{ ffrl_as }};
-  password {{ peer.bgp_password }};
+  password "{{ peer.bgp_password }}";
   default bgp_local_pref {{ peer.bgp_local_pref }};
 }
 {% endfor %}

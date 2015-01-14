@@ -3,8 +3,8 @@
   apt: name=ifupdown
 
 # works on wheezy (or earlier?)
-- name: enable interfaces.d for debian wheezy
-  lineinfile: dest=/etc/network/interfaces line='source /etc/network/interfaces.d/bat0'
+- name: load interfaces.d/ffrl-tunnels for debian wheezy
+  lineinfile: dest=/etc/network/interfaces line='source /etc/network/interfaces.d/ffrl-tunnels'
   when: ansible_distribution_release == "wheezy"
 
 # works on jessie
@@ -19,12 +19,12 @@
 
 - name: enable tunnels
   command: /sbin/ifup {{ item.name }}
-  with_dict: ffrl_peers
+  with_items: ffrl_peers
   register: ifup_result
   changed_when: "'already configured' in ifup_result.stdout"
 
 - name: add kernel table ffrl
-  linefile: dest=/etc/iproute2/rt_tables line='{{ ffrl_kernel_table }}	ffrl'
+  lineinfile: dest=/etc/iproute2/rt_tables regexp='^{{ ffrl_kernel_table }}' line='{{ ffrl_kernel_table }} ffrl'
 
 - name: add wheezy backports for bird
   apt_repository: repo='deb http://http.debian.net/debian wheezy-backports main'
@@ -47,6 +47,7 @@
 
 - name: test bird config
   command: bird -c /etc/bird/bird.conf -p
+  ignore_errors: yes
 
 - service: name=bird state=started
 
@@ -59,5 +60,6 @@
 
 - name: test bird6 config
   command: bird6 -c /etc/bird/bird6.conf -p
+  ignore_errors: yes
 
 - service: name=bird6 state=started

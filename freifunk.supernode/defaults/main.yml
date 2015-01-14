@@ -28,6 +28,7 @@ fastd_interface: 'mesh-vpn'
 
 # Repository with public keys
 fastd_pubkeys_repo: https://github.com/ff-kbu/fastd-pubkeys.git
+fastd_pubkeys_repo_version: master
 
 ff_servers:
   node1:

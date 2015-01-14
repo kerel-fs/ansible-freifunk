@@ -19,4 +19,4 @@
   file: path="/etc/fastd/{{ fastd_interface }}/fastd-up" state=absent
 
 - name: Clone fastd pubkeys
-  git: repo={{fastd_pubkeys_repo}} dest="/etc/fastd/{{ fastd_interface }}/backbone"
+  git: repo={{fastd_pubkeys_repo}} dest="/etc/fastd/{{ fastd_interface }}/backbone" version={{fastd_pubkeys_repo_version}}

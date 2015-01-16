@@ -30,7 +30,4 @@
   copy: src='etc/logrotate.d/{{ item }}' dest='/etc/logrotate.d/{{ item }}' owner=root group=root mode='0644'
   with_items:
   - fastd
-  - dhcpd
 
-- name: copy logrotate hourly script
-  copy: src='etc/cron.hourly/logrotate' dest='/etc/cron.hourly/logrotate' owner=root group=root mode='0744'

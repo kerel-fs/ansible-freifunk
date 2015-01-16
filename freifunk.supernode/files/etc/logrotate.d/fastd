@@ -1,6 +1,7 @@
 /var/log/fastd.log
 {
   rotate 1
+  daily
   size 1
   missingok
   notifempty

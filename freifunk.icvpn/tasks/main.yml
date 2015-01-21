@@ -5,9 +5,6 @@
   - tinc
   - git
 
-- name: Clone icvpn git
-  git: repo=https://github.com/freifunk/icvpn.git dest=/etc/tinc/icvpn 
-
 - lineinfile: dest=/etc/tinc/nets.boot line=icvpn
 
 - name: template tinc conf
@@ -28,22 +25,81 @@
   notify:
     - reload tinc
 
-- name: execute post-merge script
-  command: /etc/tinc/icvpn/scripts/post-merge
-  args:
-    chdir: /etc/tinc/icvpn
+- name: Clone icvpn git
+  git: repo=https://github.com/freifunk/icvpn.git dest=/etc/tinc/icvpn 
+
+- name: copy post-merge script
+  copy: src=post-merge dest=/etc/tinc/icvpn/.git/hooks/
+
+#alternativ:
+#- name: copy post-merge script
+#  command: cp /etc/tinc/icvpn/scripts/post-merge /etc/tinc/icvpn/.git/hooks/
+
+- name: copy icvpn-update-tinc
+  copy: src=icvpn-update-tinc dest='/etc/cron.daily/icvpn-update-tinc' mode='0744' owner=root group=root
+
+- name: execute icvpn-update-tinc once
+  command: /etc/cron.hourly/icvpn-update-tinc
   notify:
     - reload tinc
 
 - service: name=tinc state=started
 
+
+- name: add kernel table icvpn
+  lineinfile: dest=/etc/iproute2/rt_tables regexp='^{{ icvpn_kernel_table }}' line='{{ icvpn_kernel_table }} icvpn'
+
+- name: add wheezy backports for bird
+  apt_repository: repo='deb http://http.debian.net/debian wheezy-backports main'
+  when: ansible_distribution_release == "wheezy"
+
+- name: install bird via debian-backports
+  apt: name=bird state=latest default_release=wheezy-backports update_cache=yes
+  when: ansible_distribution_release == "wheezy"
+
+- name: install bird for debian jessie
+  apt: name=bird state=present update_cache=yes
+  when: ansible_distribution_release == "jessie"
+
+- file: dest=/etc/bird/bird.d state=directory
+
+- template: src=bird.conf.j2 dest='/etc/bird/bird.conf' owner=root group=root mode='0644'
+- template: src=icvpn.conf.j2 dest='/etc/bird/bird.d/01-icvpn.conf' owner=root group=root mode='0644'
+  notify:
+  - reload bird config
+
+- file: dest=/etc/bird/bird6.d state=directory
+
+- template: src=bird6.conf.j2 dest='/etc/bird/bird6.conf' owner=root group=root mode='0644'
+- template: src=icvpn6.conf.j2 dest='/etc/bird/bird6.d/01-icvpn6.conf' owner=root group=root mode='0644'
+  notify:
+  - reload bird6 config
+
 - name: clone icvpn-meta repo
-  git: repo=https://github.com/freifunk/icvpn-meta.git dest=/var/lib/icvpn-meta
+  git: repo=https://github.com/freifunk/icvpn-meta.git dest={{ icvpn_meta_path }}
 
 - name: clone icvpn-scripts repo  
   git: repo=https://github.com/freifunk/icvpn-scripts dest=/opt/icvpn-scripts
 
-- name: copy icvpn-update
-  copy: src=icvpn-update dest=/etc/cron.hourly/icvpn-update mode='0744' owner=root group=root
+- name: template icvpn-update-bird
+  template: src=icvpn-update-bird.j2 dest='/etc/cron.daily/icvpn-update-bird' mode='0744' owner=root group=root
 
- 
+- name: execute icvpn-update-bird once
+  command: /etc/cron.hourly/icvpn-update-bird
+  notify:
+    - reload bird
+    - reload bird6
+
+- name: test bird config
+  command: bird -c /etc/bird/bird.conf -p
+  changed_when: false
+  ignore_errors: yes
+
+- service: name=bird state=started
+
+- name: test bird6 config
+  command: bird6 -c /etc/bird/bird6.conf -p
+  changed_when: false
+  ignore_errors: yes
+
+- service: name=bird6 state=started

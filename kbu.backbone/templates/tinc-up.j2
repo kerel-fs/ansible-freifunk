@@ -1,5 +1,5 @@
 #!/bin/sh
-/sbin/ip addr add {{ kbu_backbone_network[inventory_hostname].ipv4 }} dev $INTERFACE
+/sbin/ip addr add {{ kbu_backbone.ipv4 }} dev $INTERFACE
 /sbin/ip link set dev $INTERFACE up
 
 # IPv4
@@ -8,10 +8,10 @@
 
 # IPv6
 ## VPN-Addresses (local)
-/sbin/ip -6 addr add {{ kbu_backbone_network[inventory_hostname].ipv6 }} dev $INTERFACE
+/sbin/ip -6 addr add {{ kbu_backbone.ipv6 }} dev $INTERFACE
 
-{% if inventory_hostname in ff_servers %}
-{% set network_ipv6 = ff_servers[inventory_hostname].ipv6 | ipcalc %}
+{% if ff_server is defined %}
+{% set network_ipv6 = ff_server.ipv6 | ipcalc %}
 ## Public-IP as announced in backbone
 /sbin/ip -6 addr add {{ network_ipv6.host_min }}/128 dev $INTERFACE
 {% endif %}

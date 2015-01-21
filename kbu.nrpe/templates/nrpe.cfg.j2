@@ -1,7 +1,7 @@
 log_facility=daemon
 pid_file=/var/run/nagios/nrpe.pid
 server_port=5666
-server_address={{ kbu_backbone_network[inventory_hostname].ipv4 | ipadd(0) }}
+server_address={{ kbu_backbone.ipv4 | ipadd(0) }}
 nrpe_user=nagios
 nrpe_group=nagios
 allowed_hosts={{ nrpe_allowed_hosts | join(',') }}

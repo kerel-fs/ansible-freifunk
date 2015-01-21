@@ -1,12 +1,10 @@
 ---
-- fail: msg="Please configure {{inventory_hostname}} in ff_servers"
-  when: ff_servers[inventory_hostname]|default(false) == false
+- fail: msg="Please configure ff_server for {{inventory_hostname}}"
+  when: ff_server | default(false) == false
 
 - fail: msg="As this role depends on fastd, fastd_interface has to be set!"
   when: fastd_interface is not defined
 
-- hostname: name={{ inventory_hostname }}
-- lineinfile: dest=/etc/hosts regexp="^127.0.1.1" line="127.0.1.1       {{ inventory_hostname }}.{{ ff_domain }} {{ inventory_hostname }}"
 - include: sysconfig.yml
 - include: batman.yml
 - { include: fastd.yml, tags: fastd }

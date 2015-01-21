@@ -1,5 +1,4 @@
-{% set server = ff_servers[inventory_hostname] %}
-Subnet={{ kbu_backbone_network[inventory_hostname].ipv4 | ipadd(0) }}/32
-Subnet={{ kbu_backbone_network[inventory_hostname].ipv6 | ipadd(0) }}/128
-Subnet={{ server.ipv4 }}
-Subnet={{ server.ipv6 }}
+Subnet={{ kbu_backbone.ipv4 | ipadd(0) }}/32
+Subnet={{ kbu_backbone.ipv6 | ipadd(0) }}/128
+Subnet={{ ff_server.ipv4 }}
+Subnet={{ ff_server.ipv6 }}

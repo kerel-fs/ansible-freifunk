@@ -7,7 +7,7 @@ interface bat0 {
   AdvSourceLLAddress off;
   AdvLinkMTU 1350; #1442 - fastd - batman-adv - See wiki for details
 
-  prefix {{ ff_servers[inventory_hostname].ipv6 }} {
+  prefix {{ ff_server.ipv6 }} {
     AdvOnLink on;
     AdvAutonomous on;
     AdvRouterAddr on;

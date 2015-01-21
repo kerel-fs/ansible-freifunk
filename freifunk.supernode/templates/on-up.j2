@@ -1,6 +1,6 @@
 #!/bin/sh
 
-/sbin/ip link set dev {{ fastd_interface }} address {{ ff_servers[inventory_hostname].iface_mac }}
+/sbin/ip link set dev {{ fastd_interface }} address {{ ff_server.iface_mac }}
 /sbin/ip link set dev {{ fastd_interface }} up
 
 /usr/sbin/batctl if add {{ fastd_interface }}

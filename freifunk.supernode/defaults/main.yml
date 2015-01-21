@@ -1,4 +1,5 @@
 ---
+# this should be overwritten by group_variables
 
 ff_batadv_compat: 14
 
@@ -22,23 +23,12 @@ ff_network:
   ipv6: 2001:67c:20a0:b100::/60
   ipv6_ula: fdd3:5d16:b5dd::/64
 
-# this should be overwritten by group_variables
 # this duplicates the fastd_interface variable as set by the fastd role
 fastd_interface: 'mesh-vpn'
 
 # Repository with public keys
 fastd_pubkeys_repo: https://github.com/ff-kbu/fastd-pubkeys.git
 fastd_pubkeys_repo_version: master
-
-ff_servers:
-  node1:
-    ipv4: 172.27.0.0/24
-    ipv6: 2001:67c:20a0:b101::/64
-    iface_mac: "02:ff:0f:a5:7d:01"
-  node2:
-    ipv4: 172.27.1.0/24
-    ipv6: 2001:67c:20a0:b102::/64
-    iface_mac: "02:ff:0f:a5:7d:01"
 
 # Forwarded DNS zones
 ff_forwarders:
@@ -54,3 +44,9 @@ ff_forwarders:
 # set to an http(s):// resource
 supernode_web_service_url: ""
 supernode_web_service_auth: "user:password"
+
+# this should be set by host variables:
+#ff_server:
+#  ipv4: 172.27.0.0/24
+#  ipv6: 2001:67c:20a0:b101::/64
+#  iface_mac: "02:ff:0f:a5:7d:01"

@@ -35,8 +35,8 @@ template bgp uplink {
   next hop self;
   multihop 64;
 }
-
 {% for peer in ffrl_peers %}
+
 protocol bgp {{ peer.name }} from uplink {
   source address {{ peer.own_transport_ipv6 }};
   neighbor {{ peer.peer_transport_ipv6 }} as {{ ffrl_as }};

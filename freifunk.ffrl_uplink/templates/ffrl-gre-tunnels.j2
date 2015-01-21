@@ -1,4 +1,5 @@
 {% for peer in ffrl_peers %}
+
 auto {{ peer.name }}
 iface {{ peer.name }} inet static
   address {{ peer.own_transport_ipv4 }}

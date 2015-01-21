@@ -2,11 +2,15 @@
 # default variables for ffrl_uplink
 
 ffrl_kernel_table: 203
+
+# this shold be defined in group_vars:
 ffrl_ipv4_net: 185.66.194.32/29
 ffrl_ipv6_net: 2a03:2260:1004::/48
 
 ffrl_ownas:  65528
 ffrl_as   : 201701
+
+# this shold be defined in host_vars:
 router_id: 10.207.0.57
 
 ffrl_peers:

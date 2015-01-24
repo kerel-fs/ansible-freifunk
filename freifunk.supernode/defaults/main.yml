@@ -1,52 +1,11 @@
 ---
-# this should be overwritten by group_variables
-
 ff_batadv_compat: 14
 
-ff_domain: "kbu.freifunk.net"
 ff_lease_time: 86400
 ff_dns:
-- 172.27.0.2
 - 213.73.91.35
 
-ff_anycast_dns:
-  interface:
-    - fdd3:5d16:b5dd::2
-    - 172.27.0.2
-  access_control:
-    - 2001:67c:20a0:b100::/56
-    - fdd3:5d16:b5dd::/48
-    - 172.27.0.0/16
+ff_orig_interval: 5000
+ff_gw_bandwidth: '100MBit/100MBit'
 
-ff_network:
-  ipv4: 172.27.0.0/18
-  ipv6: 2001:67c:20a0:b100::/60
-  ipv6_ula: fdd3:5d16:b5dd::/64
-
-# this duplicates the fastd_interface variable as set by the fastd role
-fastd_interface: 'mesh-vpn'
-
-# Repository with public keys
-fastd_pubkeys_repo: https://github.com/ff-kbu/fastd-pubkeys.git
 fastd_pubkeys_repo_version: master
-
-# Forwarded DNS zones
-ff_forwarders:
-  ".":
-  - 172.27.255.2 # www.kbu
-  hack:
-  - 172.31.0.5
-  - 172.31.116.1
-  dn42:
-  - 172.22.228.85
-  - 172.22.222.6
-
-# set to an http(s):// resource
-supernode_web_service_url: ""
-supernode_web_service_auth: "user:password"
-
-# this should be set by host variables:
-#ff_server:
-#  ipv4: 172.27.0.0/24
-#  ipv6: 2001:67c:20a0:b101::/64
-#  iface_mac: "02:ff:0f:a5:7d:01"

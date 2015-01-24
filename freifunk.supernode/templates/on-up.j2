@@ -1,11 +1,13 @@
 #!/bin/sh
 
+{% if ff_server.iface_mac is defined %}
 /sbin/ip link set dev {{ fastd_interface }} address {{ ff_server.iface_mac }}
+{% endif %}
 /sbin/ip link set dev {{ fastd_interface }} up
 
 /usr/sbin/batctl if add {{ fastd_interface }}
-/usr/sbin/batctl it 5000
-/usr/sbin/batctl gw_mode server 100MBit/100MBit
+/usr/sbin/batctl it {{ ff_orig_interval }}
+/usr/sbin/batctl gw_mode server {{ ff_gw_bandwidth }}
 
 /sbin/ip rule show | grep 'from {{ ff_network.ipv4 }} lookup freifunk'
 if [ $? -eq 1 ]; then

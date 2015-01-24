@@ -1,4 +1,5 @@
 ---
+# tasks file for batman-adv-14
 - name: Add repository for batman-adv compat 14
   apt_key: keyserver='pgp.surfnet.nl' id=6664E7BDA6B669881EC52E7516EF3F64CB201D9C
 
@@ -8,3 +9,7 @@
 
 - name: install batman-adv compat 14
   apt: name=batman-adv-dkms state=present
+
+- name: Enable batman during boot
+  lineinfile: dest=/etc/modules line=batman-adv
+- modprobe: name=batman-adv

@@ -1,4 +1,6 @@
 ---
+# tasks file for batman-adv-15
+
 - name: Add wheezy backports for batman compat 15
   apt_repository: repo='deb http://http.debian.net/debian wheezy-backports main'
   when: ansible_distribution_release == "wheezy"
@@ -12,3 +14,7 @@
 
 - name: install batctl
   apt: name=batctl state=present install_recommends=false
+
+- name: Enable batman during boot
+  lineinfile: dest=/etc/modules line=batman-adv
+- modprobe: name=batman-adv

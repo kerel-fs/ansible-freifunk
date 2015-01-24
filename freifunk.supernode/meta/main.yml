@@ -9,12 +9,4 @@ galaxy_info:
   categories:
   - networking
   - system
-dependencies:
-- role: fastd
-  fastd_on_up:
-    command: ./on-up
-  fastd_on_establish:
-    command: ./on-establish
-  fastd_on_disestablish:
-    command: ./on-disestablish
-  tags: fastd
+dependencies: []

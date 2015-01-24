@@ -1,7 +1,8 @@
 Freifunk Supernode
 ===============
 
-A role to set up supernodes for a Freifunk Community.
+A role to configure supernodes for a Freifunk Community.
+This role depends on fastd and one of batman-adv-14, batman-adv-15.
 Supernodes are connected to each other through a Tinc VPN.
 
 Requirements
@@ -47,7 +48,9 @@ Example Playbook
 
     - hosts: supernodes
       roles:
-         - role: freifunk.icvpn
+      - fastd
+      - batman-adv-14
+      - freifunk.supernode
 
 License
 -------

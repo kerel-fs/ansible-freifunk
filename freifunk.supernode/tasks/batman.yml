@@ -5,16 +5,6 @@
   - uml-utilities
   - ifupdown
 
-- include: batman_14.yml
-  when: ff_batadv_compat==14
-
-- include: batman_15.yml
-  when: ff_batadv_compat==15
-
-- name: Enable batman during boot
-  lineinfile: dest=/etc/modules line=batman-adv
-- modprobe: name=batman-adv
-
 # works on jessie
 - lineinfile: dest=/etc/network/interfaces line='source-directory /etc/network/interfaces.d'
   when: ansible_distribution_release == "jessie"

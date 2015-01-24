@@ -8,13 +8,6 @@
 - name: Upload on-up hook
   template: src=on-up.j2 dest="/etc/fastd/{{ fastd_interface }}/on-up" owner=root group=root mode='0755'
 
-- name: Upload fastd webservice hooks
-  template: src={{item}}.j2 dest="/etc/fastd/{{ fastd_interface }}/{{item}}" owner=root group=root mode='0755'
-  with_items:
-  - on-establish
-  - on-disestablish
-  when: supernode_web_service_url != ""
-
 - name: Remove deprecated hook
   file: path="/etc/fastd/{{ fastd_interface }}/fastd-up" state=absent
 

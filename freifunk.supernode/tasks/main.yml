@@ -11,3 +11,4 @@
 - include: dhcpd4.yml
 - include: radvd.yml
 - include: unbound.yml
+- { include: iptables.yml, tags: iptables }

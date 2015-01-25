@@ -10,3 +10,9 @@
 
 - name: restart rsyslog
   service: name=rsyslog state=restarted
+
+- name: iptables restore
+  command: iptables-restore /etc/iptables/rules.v4
+
+- name: ip6tables restore
+  command: ip6tables-restore /etc/iptables/rules.v6

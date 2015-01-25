@@ -1,0 +1,10 @@
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [0:0]
+-A FORWARD -s {{ ff_network.ipv4 }} -i bat0 -o backbone -j ACCEPT
+-A FORWARD -d {{ ff_network.ipv4 }} -i backbone -o bat0 -j ACCEPT
+-A FORWARD -s {{ ff_network.ipv4 }} -d {{ ff_network.ipv4 }} -i bat0 -o bat0 -j ACCEPT
+-A FORWARD -m limit --limit 2/min -j LOG --log-prefix "FORWARD DROPPED"
+COMMIT
+

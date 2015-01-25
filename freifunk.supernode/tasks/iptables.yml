@@ -1,0 +1,16 @@
+---
+- name: install iptables-persistent
+  apt: name=iptables-persistent state=present
+
+- name: ensure /etc/iptables exists
+  file: dest=/etc/iptables state=directory owner=root group=root
+
+- name: template iptables config
+  template: src=etc/iptables/rules.v4 dest=/etc/iptables/rules.v4 mode='0644' owner=root group=root
+  notify:
+  - iptables restore
+
+- name: template ip6tables config
+  template: src=etc/iptables/rules.v6 dest=/etc/iptables/rules.v6 mode='0644' owner=root group=root
+  notify:
+  - ip6tables restore

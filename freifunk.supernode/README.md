@@ -27,8 +27,8 @@ Group-specific variables:
       - [IP of DNS-Server to query]
     ff_network: used subnets in your network
       ipv4: Ex: 172.27.0.0/18
-      ipv6: Ex: 2001:67c:20a0:b100::/60
-      ipv6_ula: Ex: fdd3:5d16:b5dd::/64
+      ipv6: Ex: 2001:67c:20a0:b100::/56
+      ipv6_ula: Ex: fdd3:5d16:b5dd::/48
     ff_orig_interval: batman-adv originator interval (default: 5000)
     fastd_pubkeys_repo: URL, fastd backbone keys are fetched from this
     fastd_pubkeys_repo_version: Version to fetch (default: master)
@@ -38,6 +38,7 @@ Host-specific variables:
     ff_server: subnets to be used by this host
       ipv4: Ex: 172.27.0.0/21
       ipv6: Ex: 2001:67c:20a0:b100::/64
+      ipv6_ula: Ex: fdd3:5d16:b5dd::/64
       iface_mac: MAC of the fastd-vpn-interface (default: random)
     ff_gw_bandwidth: batman-adv gateway_mode announced bandwidth (default: 100MBit/100MBit)
 

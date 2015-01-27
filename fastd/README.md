@@ -1,22 +1,59 @@
-Role Name
+fastd
 =========
 
-A brief description of the role goes here.
-
-Requirements
-------------
-
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+This role installs and configures fastd, the Fast and Secure Tunnelling Daemon.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+See: http://fastd.readthedocs.org/en/v16/manual/config.html
 
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+    fastd_bind:
+    - address: ipv4 / ipv6 address
+      port: Port (1-65535)
+      interface: interface to bind to
+    fastd_drop_capabilities: (default: yes)
+    fastd_forward: (default: no)
+    fastd_hide_ip: (default: yes)
+    fastd_hide_mac: (default: yes)
+    fastd_interface: name of the VPN-interface
+    fastd_syslog_level: (default: info)
+    fastd_methods: see http://fastd.readthedocs.org/en/v16/manual/methods.html
+    - 'salsa2012+umac' (default)
+    fastd_mode: (default: tap)
+    fastd_mtu: (default: 1426)
+    fastd_on_pre_up:
+      mode: sync/async (default: sync)
+      command:
+    fastd_on_up:
+      mode: sync/async (default: sync)
+      command:
+    fastd_on_down:
+      mode: sync/async (default: sync)
+      command:
+    fastd_on_post_down:
+      mode: sync/async (default: sync)
+      command:
+    fastd_on_connect:
+      mode: sync/async (default: async)
+      command:
+    fastd_on_establish:
+      mode: sync/async (default: async)
+      command:
+    fastd_on_disestablish:
+      mode: sync/async (default: async)
+      command:
+    fastd_on_verify:
+      mode: sync/async (default: async)
+      command:
+    fastd_pmtu: (default: auto)
+    fastd_peers:
+      [name]:
+        peers_dir: '[dirname]'
+        peers_limit: maximum number of peers to connect to
+    fastd_secret: fastd private key (mandatory)
+    fastd_secure_handshakes: (default: yes)
+    fastd_status_socket: (default: '/tmp/fastd_status')
 
 Example Playbook
 ----------------
@@ -24,15 +61,17 @@ Example Playbook
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
     - hosts: servers
+      vars:
+        fastd_bind:
+        - address: '0.0.0.0'
+          port: 10000
+        fastd_interface: 'fastd-vpn'
+        fastd_secret: '[key]'
       roles:
-         - { role: username.rolename, x: 42 }
+      - fastd
 
 License
 -------
 
-BSD
+GPLv3
 
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).

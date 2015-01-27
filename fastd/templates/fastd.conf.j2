@@ -1,11 +1,11 @@
 {% for b in fastd_bind %}
-bind {{ b }};
+bind {{ b.address }} port {{ b.port }}{% if b.interface is defined %} interface {{ b.interface }}{% endif %};
 {% endfor %}
 
-drop capabilities {{ fastd_drop_capabilities | default('yes') }};
-forward {{ fastd_forward | default('no') }};
-hide ip addresses {{ fastd_hide_ip | default('no') }};
-hide mac addresses {{ fastd_hide_mac | default('no') }};
+drop capabilities {{ fastd_drop_capabilities }};
+forward {{ fastd_forward }};
+hide ip addresses {{ fastd_hide_ip }};
+hide mac addresses {{ fastd_hide_mac }};
 
 {% if fastd_peers is defined %}
 {% for name, group in fastd_peers.iteritems() %}
@@ -21,7 +21,7 @@ peer group "{{ name }}" {
 {% endif %}
 interface "{{ fastd_interface }}";
 
-log to syslog level {{ fastd_syslog_level | default('info') }};
+log to syslog level {{ fastd_syslog_level }};
 
 {% if fastd_methods is defined %}
 {% for cipher in fastd_methods %}
@@ -30,8 +30,8 @@ method "{{ cipher }}";
 {% else %}
 method "salsa2012+umac";
 {% endif %}
-mode {{ fastd_mode | default('tap') }};
-mtu {{ fastd_mtu | default(1500) }};
+mode {{ fastd_mode }};
+mtu {{ fastd_mtu }};
 
 {% if fastd_on_pre_up is defined and fastd_on_pre_up.command is defined %}
 on pre-up {{ fastd_on_pre_up.mode | default('sync') }} "{{ fastd_on_pre_up.command }}";
@@ -58,10 +58,10 @@ on disestablish {{ fastd_on_disestablish.mode | default('async') }} "{{ fastd_on
 on verify {{ fastd_on_verify.mode | default('async') }} "{{ fastd_on_verify.command }}";
 {% endif %}
 
-pmtu {{ fastd_pmtu | default('auto') }};
+pmtu {{ fastd_pmtu }};
 
 secret "{{ fastd_secret }}";
-secure handshakes {{ fastd_secure_handshakes | default('yes') }};
+secure handshakes {{ fastd_secure_handshakes }};
 
 {% if fastd_status_socket is defined %}
 status socket "{{ fastd_status_socket }}";

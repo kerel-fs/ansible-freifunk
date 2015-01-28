@@ -1,6 +1,6 @@
 ---
 - name: install ifupdown
-  apt: name=ifupdown
+  apt: name=ifupdown state=present
 
 # works on wheezy (or earlier?)
 - name: load interfaces.d/ffrl-tunnels for debian wheezy
@@ -12,7 +12,8 @@
   lineinfile: dest=/etc/network/interfaces line='source-directory /etc/network/interfaces.d'
   when: ansible_distribution_release == "jessie"
 
-- file: dest=/etc/network/interfaces.d state=directory
+- name: ensure /etc/network/interfaces.d exists
+  file: dest=/etc/network/interfaces.d state=directory owner=root group=root
 
 - name: add GRE tunnel configuration
   template: src=ffrl-gre-tunnels.j2 dest='/etc/network/interfaces.d/ffrl-tunnels' owner=root group=root mode='0644'
@@ -34,14 +35,20 @@
   apt: name=bird state=latest default_release=wheezy-backports update_cache=yes
   when: ansible_distribution_release == "wheezy"
 
-- name: install bird for debian jessie
+- name: install bird for debian
   apt: name=bird state=present update_cache=yes
   when: ansible_distribution_release == "jessie"
 
-- file: dest=/etc/bird/bird.d state=directory
+- name: ensure /etc/bird/bird.d exists
+  file: dest=/etc/bird/bird.d state=directory owner=root group=root
 
-- template: src=bird.conf.j2 dest='/etc/bird/bird.conf' owner=root group=root mode='0644'
-- template: src=ffrl.conf.j2 dest='/etc/bird/bird.d/ffrl.conf' owner=root group=root mode='0644'
+- name: template /etc/bird/bird.conf
+  template: src=bird.conf.j2 dest='/etc/bird/bird.conf' owner=root group=root mode='0644'
+  notify:
+  - reload bird config
+
+- name: template /etc/bird/bird.d/ffrl.conf
+  template: src=ffrl.conf.j2 dest='/etc/bird/bird.d/ffrl.conf' owner=root group=root mode='0644'
   notify:
   - reload bird config
 
@@ -50,12 +57,19 @@
   changed_when: false
   ignore_errors: yes
 
-- service: name=bird state=started
+- name: start bird
+  service: name=bird pattern='/usr/sbin/bird -u bird -g bird' state=started
 
-- file: dest=/etc/bird/bird6.d state=directory
+- name: ensure /etc/bird/bird6.d exists
+  file: dest=/etc/bird/bird6.d state=directory owner=root group=root
 
-- template: src=bird6.conf.j2 dest='/etc/bird/bird6.conf' owner=root group=root mode='0644'
-- template: src=ffrl6.conf.j2 dest='/etc/bird/bird6.d/ffrl6.conf' owner=root group=root mode='0644'
+- name: template /etc/bird/bird6.conf
+  template: src=bird6.conf.j2 dest='/etc/bird/bird6.conf' owner=root group=root mode='0644'
+  notify:
+  - reload bird6 config
+
+- name: template /etc/bird/bird.d/ffrl6.conf
+  template: src=ffrl6.conf.j2 dest='/etc/bird/bird6.d/ffrl6.conf' owner=root group=root mode='0644'
   notify:
   - reload bird6 config
 
@@ -64,4 +78,5 @@
   changed_when: false
   ignore_errors: yes
 
-- service: name=bird6 state=started
+- name: start bird6
+  service: name=bird6 pattern='/usr/sbin/bird6 -u bird -g bird' state=started

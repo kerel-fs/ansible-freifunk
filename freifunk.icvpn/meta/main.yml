@@ -3,9 +3,9 @@ galaxy_info:
   description: Freifunk IC-VPN
   min_ansible_version: 1.7
   platforms:
-  - name: Ubuntu
-    versions:
-    - trusty
+  #- name: Ubuntu
+  #  versions:
+  #  - trusty
   - name: Debian
     versions:
     #- squeeze

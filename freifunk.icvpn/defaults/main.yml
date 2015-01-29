@@ -1,8 +1,8 @@
 ---
 # default variables for icvpn
 
-icvpn_hostname = 'koeln1'
-icvpn_ipv4_addr = 10.207.0.57/16
-icvpn_ipv6_addr = fec0::a:cf:0:57/96
+icvpn_meta_path    = '/var/lib/freifunk'
+icvpn_scripts_path = '/opt/icvpn-scripts'
+icvpn_update_rate  = 'daily'
 
-
+icvpn_kernel_table = 202

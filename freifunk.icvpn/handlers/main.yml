@@ -1,3 +1,9 @@
 ---
 - name: reload tinc
   service: name=tinc state=reloaded
+
+- name: reload bird config
+  command: /usr/sbin/birdc configure
+
+- name: reload bird6 config
+  command: /usr/sbin/birdc6 configure

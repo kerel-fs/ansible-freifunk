@@ -1,11 +1,9 @@
 #!/bin/bash
+# was: post-merge hook for Debian systems
 
-# post-merge hook for Debian systems
-#
-# 1. copy to .git/hooks
-# 2. to test run "git pull -q"
-# 3. create cronjob running "git pull -q -C /etc/tinc/icvpn/"
-#
+cd /etc/tinc/icvpn
+git pull -q
+
 
 fail() {
   echo "$1" >&2

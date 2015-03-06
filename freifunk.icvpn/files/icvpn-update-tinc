@@ -1,5 +1,0 @@
-#!/bin/sh
-
-cd /etc/tinc/icvpn
-git pull -q
-

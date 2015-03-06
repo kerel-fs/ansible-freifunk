@@ -15,15 +15,14 @@ Default variables:
 ```
 icvpn_meta_path    = '/var/lib/freifunk'
 icvpn_scripts_path = '/opt/icvpn-scripts'
-icvpn_update_rate  = 'daily'
 
 icvpn_kernel_table = 202
 ```
 
 Group variables:
 ```
-icvpn_hostname = 'koeln1'
-icvpn_ownas = 65528
+icvpn_hostname  = 'koeln1'
+icvpn_ownas     = 65528
 icvpn_community = 'kbu'
 ```
 
@@ -31,7 +30,7 @@ Host variables:
 ```
 icvpn_ipv4_addr = 10.207.0.57
 icvpn_ipv6_addr = fec0::a:cf:0:57
-router_id = 10.207.0.57
+router_id       = 10.207.0.57
 icvpn_ipv4_net  = 172.26.0.0/15
 icvpn_ipv6_net  = fdd3:5d16:b5dd::/48
 ```

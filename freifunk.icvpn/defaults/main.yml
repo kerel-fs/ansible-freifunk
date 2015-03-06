@@ -3,6 +3,5 @@
 
 icvpn_meta_path    = '/var/lib/freifunk'
 icvpn_scripts_path = '/opt/icvpn-scripts'
-icvpn_update_rate  = 'daily'
 
 icvpn_kernel_table = 202

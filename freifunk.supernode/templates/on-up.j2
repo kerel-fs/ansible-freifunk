@@ -1,7 +1,7 @@
 #!/bin/sh
 
-{% if ff_server.iface_mac is defined %}
-/sbin/ip link set dev {{ fastd_interface }} address {{ ff_server.iface_mac }}
+{% if fastd_interface_mac is defined %}
+/sbin/ip link set dev {{ fastd_interface }} address {{ fastd_interface_mac }}
 {% endif %}
 /sbin/ip link set dev {{ fastd_interface }} up
 

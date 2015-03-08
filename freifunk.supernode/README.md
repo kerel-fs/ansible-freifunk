@@ -39,8 +39,9 @@ Host-specific variables:
       ipv4: Ex: 172.27.0.0/21
       ipv6: Ex: 2001:67c:20a0:b100::/64
       ipv6_ula: Ex: fdd3:5d16:b5dd::/64
-      iface_mac: MAC of the fastd-vpn-interface (default: random)
     ff_gw_bandwidth: batman-adv gateway_mode announced bandwidth (default: 100MBit/100MBit)
+    fastd_interface_mac: MAC of the fastd-vpn-interface (default: random)
+    bat0_interface_mac: MAC of the bat0-interface (default: random)
 
 Take a look at `defaults/main.yml`
 

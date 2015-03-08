@@ -4,6 +4,9 @@
 
 auto bat0
 iface bat0 inet static
+{% if bat0_interface_mac is defined %}
+  hwaddress ether {{ bat0_interface_mac }}
+{% endif %}
   address {{ network_v4.host_min }}
   netmask {{ ff_network_v4.netmask }}
   pre-up  modprobe batman-adv && tunctl -t {{ fastd_interface }} && batctl if add {{ fastd_interface }}

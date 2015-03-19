@@ -7,3 +7,6 @@
 [submodule "fastd"]
 	path = fastd
 	url = https://github.com/kaleng/fastd
+[submodule "freifunk.supernode"]
+	path = freifunk.supernode
+	url = https://github.com/kaleng/freifunk.supernode

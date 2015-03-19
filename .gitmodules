@@ -1,3 +1,6 @@
 [submodule "batman-adv-15"]
 	path = batman-adv-15
 	url = https://github.com/kaleng/batman-adv-15
+[submodule "batman-adv-14"]
+	path = batman-adv-14
+	url = https://github.com/kaleng/batman-adv-14

@@ -10,3 +10,6 @@
 [submodule "freifunk.supernode"]
 	path = freifunk.supernode
 	url = https://github.com/kaleng/freifunk.supernode
+[submodule "kbu.backbone"]
+	path = kbu.backbone
+	url = https://github.com/kaleng/kbu.backbone

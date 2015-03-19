@@ -1,9 +1,0 @@
----
-# defaults file for kbu.backbone
-kbu_backbone:
-  ipv4: 172.27.255.11/24
-  ipv6: fdd3:5d16:b5dd:3::11/64
-
-kbu_backbone_connect_to:
-- paul
-- paula

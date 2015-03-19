@@ -13,3 +13,6 @@
 [submodule "kbu.backbone"]
 	path = kbu.backbone
 	url = https://github.com/kaleng/kbu.backbone
+[submodule "kbu.nrpe"]
+	path = kbu.nrpe
+	url = https://github.com/kaleng/kbu.nrpe

@@ -4,3 +4,6 @@
 [submodule "batman-adv-14"]
 	path = batman-adv-14
 	url = https://github.com/kaleng/batman-adv-14
+[submodule "fastd"]
+	path = fastd
+	url = https://github.com/kaleng/fastd

@@ -16,3 +16,9 @@
 [submodule "kbu.nrpe"]
 	path = kbu.nrpe
 	url = https://github.com/kaleng/kbu.nrpe
+[submodule "freifunk.icvpn"]
+	path = freifunk.icvpn
+	url = https://github.com/kerel-fs/freifunk.icvpn.git
+[submodule "freifunk.ffrl-uplink"]
+	path = freifunk.ffrl-uplink
+	url = https://github.com/kerel-fs/freifunk.ffrl-uplink.git

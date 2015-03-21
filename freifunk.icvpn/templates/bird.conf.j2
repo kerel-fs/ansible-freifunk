@@ -1,8 +1,0 @@
-router id {{ icvpn_ipv4_addr }};
-define ownas = {{ icvpn_ownas }};
-
-table ebgp; # external (icvpn) BGP peerings
-
-### additional configuration  ###
-
-include "/etc/bird/bird.d/*";
